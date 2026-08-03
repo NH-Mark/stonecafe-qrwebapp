@@ -168,8 +168,6 @@ export default function OrderSuccessPage() {
                                 {order.total} QAR
                             </span>
                         </div>
-
-
                         <div className="flex justify-between items-center">
                             <span className="text-[#a57650]">
                                 Status

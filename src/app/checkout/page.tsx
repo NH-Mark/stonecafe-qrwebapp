@@ -38,7 +38,7 @@ import { Customer } from "@/types/customer";
 
 
 export default function CheckoutPage() {
-
+    const [loading, setLoading] = useState(false);
 
     const {
         methods
@@ -132,6 +132,7 @@ export default function CheckoutPage() {
         );
 
     async function placeOrder() {
+        if (loading) return;
 
 
         if (customer.phone.length !== 8) {
@@ -166,6 +167,8 @@ export default function CheckoutPage() {
             return;
 
         }
+        setLoading(true);
+
 
 
 
@@ -280,6 +283,10 @@ export default function CheckoutPage() {
             toast.error(
                 "Could not place order"
             );
+
+        }finally {
+
+            setLoading(false);
 
         }
 
@@ -455,6 +462,7 @@ export default function CheckoutPage() {
                 total={total}
 
                 placeOrder={placeOrder}
+                loading={loading}
 
             />
 

@@ -1,10 +1,13 @@
 "use client";
 
+import { ArrowRight, Loader2 } from "lucide-react";
+
 interface Props {
 
     total: number;
 
     placeOrder: () => void;
+    loading: boolean;
 
 }
 
@@ -13,7 +16,8 @@ export default function CheckoutSummary({
 
     total,
 
-    placeOrder
+    placeOrder,
+    loading
 
 }: Props) {
 
@@ -143,38 +147,55 @@ text-[#40332a]
 
                         onClick={placeOrder}
 
-                        className="
+                        disabled={loading}
+
+                        className={`
 h-14
-
 px-6
-
 rounded-2xl
-
-bg-[#40332a]
-
-text-white
-
 font-black
-
 text-base
-
 flex
 items-center
 justify-center
-
+gap-2
 shadow-lg
-
-active:scale-95
-
 transition
 
-"
-
+${loading
+                                ? "bg-gray-400 cursor-not-allowed"
+                                : "bg-[#40332a] text-white active:scale-95"}
+`}
                     >
 
+                        {loading ? (
 
-                        Place Order
+                            <>
 
+                                <Loader2
+                                    size={18}
+                                    className="animate-spin"
+                                />
+
+                                <span>
+                                    Placing Order...
+                                </span>
+
+                            </>
+
+                        ) : (
+
+                            <>
+
+                                <span>
+                                    Place Order
+                                </span>
+
+                                <ArrowRight size={18} />
+
+                            </>
+
+                        )}
 
                     </button>
 
