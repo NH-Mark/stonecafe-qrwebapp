@@ -30,7 +30,7 @@ export interface CartItem {
     qty: number;
 
     modifiers: CartModifier[];
-    // modifierNames?: string[];
+
 
 }
 

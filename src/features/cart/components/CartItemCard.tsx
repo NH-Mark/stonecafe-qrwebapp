@@ -113,25 +113,21 @@ justify-center
                     {/* MODIFIERS */}
 
                     {
-                        item.modifierNames &&
-                        item.modifierNames.length > 0 &&
+                        item.modifiers.length > 0 && (
 
-                        <div
-                            className="
+                            <div
+                                className="
 mt-2
 flex
 flex-wrap
 gap-1
 "
-                        >
+                            >
 
-                            {
-                                item.modifierNames.map(name => (
+                                {item.modifiers.map(modifier => (
 
                                     <span
-
-                                        key={name}
-
+                                        key={`${modifier.groupId}-${modifier.id}`}
                                         className="
 px-2
 py-0.5
@@ -140,18 +136,15 @@ bg-[#f6f2ed]
 text-[11px]
 text-[#7a6555]
 "
-
                                     >
-
-                                        {name}
-
+                                        {modifier.name}
                                     </span>
 
-                                ))
-                            }
+                                ))}
 
-                        </div>
+                            </div>
 
+                        )
                     }
 
                     {/* FOOTER */}

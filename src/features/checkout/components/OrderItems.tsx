@@ -96,22 +96,22 @@ shadow-sm
                     </h3>
 
 
-                    {
-                    item.modifierNames?.length ?
+                   {
+                        item.modifiers.length > 0 && (
 
-                    <p
-                    className="
-                    text-xs
-                    text-gray-500
-                    truncate
-                    "
-                    >
-                        {item.modifierNames.join(", ")}
-                    </p>
+                            <p
+                                className="
+                                text-xs
+                                text-gray-500
+                                truncate
+                                "
+                            >
+                                {item.modifiers
+                                    .map(modifier => `${modifier.groupName}: ${modifier.name}`)
+                                    .join(" • ")}
+                            </p>
 
-                    :
-                    null
-
+                        )
                     }
 
 
