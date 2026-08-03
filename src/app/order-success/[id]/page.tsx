@@ -57,7 +57,6 @@ export default function OrderSuccessPage() {
 
 
             if (
-                orderData.payment_status === "paid" &&
                 !cartCleared.current
             ) {
 
