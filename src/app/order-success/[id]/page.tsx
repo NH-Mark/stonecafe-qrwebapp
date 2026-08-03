@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { Check, Coffee, ShoppingBag } from "lucide-react";
+
 import PageLoader from "@/src/components/common/PageLoader";
 import { useCartStore } from "@/src/store/useCartStore";
 
@@ -13,6 +14,7 @@ interface Order {
     payment_status: string;
     payment_reference: string | null;
     total: string;
+    payment_method: string;
 }
 
 
@@ -20,11 +22,20 @@ export default function OrderSuccessPage() {
 
     const params = useParams();
 
-    const [order, setOrder] = useState<Order | null>(null);
-    const clearCart = useCartStore(
-        state => state.clearCart
-    );
-    const cartCleared = useRef(false);
+    const [order, setOrder] =
+        useState<Order | null>(null);
+
+
+    const clearCart =
+        useCartStore(
+            state => state.clearCart
+        );
+
+
+    const cartCleared =
+        useRef(false);
+
+
 
     useEffect(() => {
 
@@ -34,43 +45,70 @@ export default function OrderSuccessPage() {
         fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/orders/${params.id}`
         )
-            .then(res => res.json())
-            .then(response => {
+        .then(res => res.json())
+        .then(response => {
 
-                const orderData = response.data;
-
-                setOrder(orderData);
-
-
-                if (
-                    orderData.payment_status === "paid" &&
-                    !cartCleared.current
-                ) {
-
-                    clearCart();
-
-                    cartCleared.current = true;
-
-                }
-
-            });
+            const orderData =
+                response.data;
 
 
-    }, [params.id, clearCart]);
+            setOrder(orderData);
+
+
+
+            if (
+                orderData.payment_status === "paid" &&
+                !cartCleared.current
+            ) {
+
+                clearCart();
+
+                cartCleared.current = true;
+
+            }
+
+
+        });
+
+
+    }, [
+        params.id,
+        clearCart
+    ]);
+
+
 
 
     if (!order) {
+
         return <PageLoader />;
+
     }
+
+
+
+    const isCard =
+        order.payment_method === "SKIPCASH";
+
 
 
     return (
 
-        <main className="min-h-screen bg-[#f3f3f3] flex items-center justify-center px-5">
+        <main
+            className="
+                min-h-screen
+                bg-[#f3f3f3]
+                flex
+                items-center
+                justify-center
+                px-5
+            "
+        >
 
             <div
                 className="
-                    w-full max-w-md
+                    w-full
+                    max-w-md
                     bg-white
                     rounded-3xl
                     shadow-xl
@@ -78,7 +116,7 @@ export default function OrderSuccessPage() {
                 "
             >
 
-                {/* Header */}
+
                 <div
                     className="
                         bg-[#40332a]
@@ -98,7 +136,6 @@ export default function OrderSuccessPage() {
                             flex
                             items-center
                             justify-center
-                            relative
                         "
                     >
 
@@ -114,6 +151,7 @@ export default function OrderSuccessPage() {
                     </div>
 
 
+
                     <h1
                         className="
                             mt-5
@@ -122,20 +160,41 @@ export default function OrderSuccessPage() {
                             text-white
                         "
                     >
-                        Payment Successful
+                        {
+                            isCard
+                                ? "Payment Successful"
+                                : "Order Confirmed"
+                        }
                     </h1>
 
 
-                    <p className="mt-2 text-[#ddcfbe] flex justify-center items-center gap-2">
+
+                    <p
+                        className="
+                            mt-2
+                            text-[#ddcfbe]
+                            flex
+                            justify-center
+                            items-center
+                            gap-2
+                        "
+                    >
+
                         Thank you for your order
-                        <Coffee className="w-4 h-4" />
+
+                        <Coffee
+                            className="w-4 h-4"
+                        />
+
                     </p>
+
 
                 </div>
 
 
 
-                {/* Content */}
+
+
                 <div className="p-8">
 
 
@@ -148,30 +207,87 @@ export default function OrderSuccessPage() {
                         "
                     >
 
-                        <div className="flex justify-between">
-                            <span className="text-[#a57650]">
+
+                        <div
+                            className="
+                                flex
+                                justify-between
+                            "
+                        >
+
+                            <span
+                                className="
+                                    text-[#a57650]
+                                "
+                            >
                                 Order No
                             </span>
 
-                            <span className="font-semibold text-[#40332a]">
+
+                            <span
+                                className="
+                                    font-semibold
+                                    text-[#40332a]
+                                "
+                            >
                                 #{order.order_no}
                             </span>
+
                         </div>
 
 
-                        <div className="flex justify-between">
-                            <span className="text-[#a57650]">
+
+
+
+                        <div
+                            className="
+                                flex
+                                justify-between
+                            "
+                        >
+
+                            <span
+                                className="
+                                    text-[#a57650]
+                                "
+                            >
                                 Amount
                             </span>
 
-                            <span className="font-bold text-[#40332a]">
+
+                            <span
+                                className="
+                                    font-bold
+                                    text-[#40332a]
+                                "
+                            >
                                 {order.total} QAR
                             </span>
+
                         </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-[#a57650]">
+
+
+
+
+
+
+                        <div
+                            className="
+                                flex
+                                justify-between
+                                items-center
+                            "
+                        >
+
+                            <span
+                                className="
+                                    text-[#a57650]
+                                "
+                            >
                                 Status
                             </span>
+
+
 
                             <span
                                 className="
@@ -187,20 +303,39 @@ export default function OrderSuccessPage() {
                                     text-[#40332a]
                                 "
                             >
-                                <Check className="w-4 h-4" />
-                                Paid
+
+                                <Check
+                                    className="w-4 h-4"
+                                />
+
+
+                                {
+                                    isCard
+                                        ? "Paid"
+                                        : "Confirmed"
+                                }
+
+
                             </span>
+
+
                         </div>
+
 
 
                     </div>
 
 
 
+
+
+
                     <button
-                        onClick={() => {
-                            window.location.href = "/";
-                        }}
+
+                        onClick={() =>
+                            window.location.href = "/menu"
+                        }
+
                         className="
                             mt-8
                             w-full
@@ -217,9 +352,17 @@ export default function OrderSuccessPage() {
                             gap-2
                         "
                     >
-                        <ShoppingBag className="w-5 h-5" />
-                        Continue Shopping
+
+                        <ShoppingBag
+                            className="w-5 h-5"
+                        />
+
+                        Continue Ordering
+
                     </button>
+
+
+
 
 
                     <p
@@ -230,14 +373,19 @@ export default function OrderSuccessPage() {
                             text-[#c3b6a4]
                         "
                     >
+
                         We are preparing your delicious order
+
                     </p>
 
 
                 </div>
 
+
             </div>
 
+
         </main>
+
     );
 }

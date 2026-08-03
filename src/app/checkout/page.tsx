@@ -28,14 +28,7 @@ import {
 import { createCustomerOrder, findCustomerByPhone } from "@/src/features/checkout/checkout.service";
 import { useOrderStore } from "@/src/store/store";
 import { Customer } from "@/types/customer";
-
-
-
-
-
-
-
-
+import { useRouter } from "next/router";
 
 export default function CheckoutPage() {
     const [loading, setLoading] = useState(false);
@@ -65,11 +58,6 @@ export default function CheckoutPage() {
             note: ""
 
         });
-
-
-
-
-
     useEffect(() => {
 
 
@@ -86,11 +74,6 @@ export default function CheckoutPage() {
         methods,
         payment
     ]);
-
-
-
-
-
     const subtotal =
         totalPrice();
 
@@ -267,32 +250,28 @@ export default function CheckoutPage() {
 
 
 
-            toast.success(
-                "Order placed successfully"
-            );
+            window.location.href =
+            `/order-success/${order.id}`;
 
 
 
-            clearCart();
+                }
+                catch (error) {
+
+                    toast.error(
+                        "Could not place order"
+                    );
+
+                }finally {
+
+                    setLoading(false);
+                    clearCart();
+
+                }
 
 
 
-        }
-        catch (error) {
-
-            toast.error(
-                "Could not place order"
-            );
-
-        }finally {
-
-            setLoading(false);
-
-        }
-
-
-
-    }
+            }
 
 
 
@@ -458,9 +437,7 @@ export default function CheckoutPage() {
 
 
             <CheckoutSummary
-
                 total={total}
-
                 placeOrder={placeOrder}
                 loading={loading}
 
