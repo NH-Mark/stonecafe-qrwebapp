@@ -42,14 +42,18 @@ export default function MenuPage() {
 
         return menu.filter(item => {
 
-            const searchMatch = item.name
-                .toLowerCase()
-                .includes(search.toLowerCase());
+            const searchText = search.toLowerCase().trim();
+
+            const searchMatch =
+                item.name.toLowerCase().includes(searchText) ||
+                item.sku?.toLowerCase().includes(searchText);
+
 
             // Search always works globally
-            if (search.trim()) {
+            if (searchText) {
                 return searchMatch;
             }
+
 
             // Category filter
             return (
@@ -189,8 +193,8 @@ px-5
 
 
                 <div className="relative mt-5">
-                <Search
-                    className={`
+                    <Search
+                        className={`
                         absolute
                         top-1/2
                         -translate-y-1/2
@@ -199,13 +203,13 @@ px-5
                         h-5
                         text-gray-400
                     `}
-                />
+                    />
 
-                <input
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder={t("searchPlaceholder")}
-                    className={`
+                    <input
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder={t("searchPlaceholder")}
+                        className={`
                         w-full
                         rounded-2xl
                         bg-white
@@ -214,8 +218,8 @@ px-5
                         outline-none
                         ${locale === "ar" ? "pr-12 pl-4" : "pl-12 pr-4"}
                     `}
-                />
-            </div>
+                    />
+                </div>
 
 
 
@@ -228,9 +232,9 @@ px-5
 
                 <div className="relative">
 
-    {/* Categories */}
-    <div
-        className="
+                    {/* Categories */}
+                    <div
+                        className="
             flex
             gap-4
             overflow-x-auto
@@ -239,33 +243,33 @@ px-5
             pr-10
             pt-5
         "
-    >
-        {categories.map((cat) => {
+                    >
+                        {categories.map((cat) => {
 
-            const title =
-                locale === "ar"
-                    ? (cat.name_ar?.trim() || cat.name)
-                    : cat.name;
+                            const title =
+                                locale === "ar"
+                                    ? (cat.name_ar?.trim() || cat.name)
+                                    : cat.name;
 
-            return (
-                <div
-                    key={cat.id}
-                    onClick={() => handleCategoryChange(cat.id)}
-                    className="cursor-pointer flex-shrink-0"
-                >
-                    <CategoryCard
-                        title={title}
-                        image={cat.image}
-                        active={selectedCategory === cat.id}
-                    />
-                </div>
-            );
-        })}
-    </div>
+                            return (
+                                <div
+                                    key={cat.id}
+                                    onClick={() => handleCategoryChange(cat.id)}
+                                    className="cursor-pointer flex-shrink-0"
+                                >
+                                    <CategoryCard
+                                        title={title}
+                                        image={cat.image}
+                                        active={selectedCategory === cat.id}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
 
-    {/* Scroll Hint */}
-    <div
-        className="
+                    {/* Scroll Hint */}
+                    <div
+                        className="
             pointer-events-none
             absolute
             top-0
@@ -279,18 +283,18 @@ px-5
             from-[#faf7f2]
             to-transparent
         "
-    >
-        <Arrow
-            className="
+                    >
+                        <Arrow
+                            className="
                 h-6
                 w-6
                 text-[#8b7355]
                 animate-pulse
             "
-        />
-    </div>
+                        />
+                    </div>
 
-</div>
+                </div>
 
 
 
@@ -400,15 +404,15 @@ mb-4
             {
                 totalItems > 0 &&
 
-               
 
-                    <FloatingCart
 
-                        items={totalItems}
+                <FloatingCart
 
-                        total={totalPrice}
+                    items={totalItems}
 
-                    />
+                    total={totalPrice}
+
+                />
 
             }
 
