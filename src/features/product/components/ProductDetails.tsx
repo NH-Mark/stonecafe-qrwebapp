@@ -30,7 +30,7 @@ export default function ProductDetails({
 
     const locale = useLocale();
     const t = useTranslations("product");
-
+    const common = useTranslations('common');
     const name =
         locale === "ar"
         ? product.name_ar?.trim() || product.name
@@ -287,7 +287,7 @@ font-bold
 "
                     >
 
-                        {unitPrice.toFixed(2)} QAR
+                        {unitPrice.toFixed(2)} {common('qar')}
 
                     </div>
 
@@ -599,7 +599,7 @@ text-[#40332a]
                                                             text-gray-500
                                                         "
                                                     >
-                                                        + {Number(modifier.price).toFixed(2)} QAR
+                                                        + {Number(modifier.price).toFixed(2)} {common('qar')}
                                                     </span>
 
 

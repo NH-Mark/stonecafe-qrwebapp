@@ -46,7 +46,7 @@ export default function AddToCartButton({
     const t = useTranslations("product");
 
     const locale = useLocale();
-
+    const common = useTranslations('common');
 
     const addItem =
         useCartStore(
@@ -331,7 +331,7 @@ export default function AddToCartButton({
 
                     >
 
-                        {totalPrice.toFixed(2)} QAR
+                        {totalPrice.toFixed(2)} {common('qar')}
 
                     </span>
 

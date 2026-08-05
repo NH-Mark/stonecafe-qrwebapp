@@ -28,6 +28,7 @@ export default function CheckoutSummary({
 
     const t = useTranslations('checkout');
     const locale = useLocale();
+    const common = useTranslations('common');
     
     const Arrow = locale === "ar"
         ? ChevronLeft
@@ -143,6 +144,7 @@ export default function CheckoutSummary({
                                 text-xl
                                 font-black
                                 text-[#40332a]
+                                pl-2
                             "
 
                         >
@@ -154,12 +156,13 @@ export default function CheckoutSummary({
                                 className="
                                     text-sm
                                     ml-1
+                                    mr-1
                                     font-bold
                                 "
 
                             >
 
-                                QAR
+                                {common('qar')}
 
                             </span>
 

@@ -58,8 +58,8 @@
     "successDesc":"We are preparing your delicious order",
     "orderConfirmed":"Order Confirmed",
     "paymentSuccessfull":"Payment Successful"
-
-
-
+  },
+  "common":{
+    "qar":"QAR"
   }
 }

@@ -33,6 +33,7 @@ export default function FloatingCart({
     const locale = useLocale();
 
     const t = useTranslations("cart");
+    const common = useTranslations('common');
 
 
     const Arrow =
@@ -252,7 +253,7 @@ export default function FloatingCart({
 
                         >
 
-                            {total.toFixed(2)} QAR
+                            {total.toFixed(2)} {common('qar')}
 
 
                         </span>

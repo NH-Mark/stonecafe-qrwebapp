@@ -2,8 +2,11 @@
 
 import { ArrowRight } from "lucide-react";
 import { useCartStore } from "@/src/store/useCartStore";
+import { useTranslations } from "next-intl";
 
 export default function CartSummary() {
+
+    const common = useTranslations('common');
 
     const total = useCartStore(
         state => state.totalPrice()
@@ -71,7 +74,7 @@ text-[#40332a]
 leading-none
 "
                     >
-                        {Number(total).toFixed(2)} QAR
+                        {Number(total).toFixed(2)} {common('qar')}
                     </p>
 
                 </div>

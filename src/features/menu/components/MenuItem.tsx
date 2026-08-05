@@ -1,6 +1,6 @@
 import { imageUrl } from "@/src/utils/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Props {
   item: any;
@@ -8,6 +8,7 @@ interface Props {
 
 export default function MenuItemPage({ item }: Props) {
    const locale = useLocale();
+   const common = useTranslations('common');
    const name =
     locale === "ar"
       ? item.name_ar?.trim() || item.name
@@ -42,7 +43,7 @@ export default function MenuItemPage({ item }: Props) {
           <div className="mt-3 flex justify-between items-center">
 
             <span className="font-bold text-[#a57653]">
-              QAR {item.price}
+              {common('qar')} {item.price}
             </span>
 
             <div className="w-10 h-10 rounded-full bg-[#40332a] text-white flex items-center justify-center">

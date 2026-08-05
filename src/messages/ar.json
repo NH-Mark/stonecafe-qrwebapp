@@ -58,5 +58,8 @@
     "successDesc":"نُجهّز طلبك اللذيذ.",
      "orderConfirmed":"تم تأكيد الطلب",
     "paymentSuccessfull":"تمت عملية الدفع بنجاح"
+  },
+  "common":{
+    "qar":"ريال"
   }
 }

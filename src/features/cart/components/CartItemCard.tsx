@@ -6,6 +6,7 @@ import {
     CartItem,
     useCartStore
 } from "@/src/store/useCartStore";
+import { useTranslations } from "next-intl";
 
 interface Props {
     item: CartItem;
@@ -17,6 +18,7 @@ export default function CartItemCard({
 
     const updateQty = useCartStore(state => state.updateQty);
     const removeItem = useCartStore(state => state.removeItem);
+    const common = useTranslations('common');
 
     return (
 
@@ -80,7 +82,7 @@ text-gray-400
 mt-0.5
 "
                             >
-                                {Number(item.price).toFixed(2)} QAR each
+                                {Number(item.price).toFixed(2)}  {common('qar')} each
                             </p>
 
                         </div>
@@ -166,7 +168,7 @@ text-[#40332a]
 "
                         >
 
-                            {(Number(item.price) * item.qty).toFixed(2)} QAR
+                            {(Number(item.price) * item.qty).toFixed(2)} {common('qar')}
 
                         </span>
 

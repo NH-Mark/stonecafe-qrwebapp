@@ -21,7 +21,7 @@ export default function OrderItems() {
 
     const locale = useLocale();
     const t = useTranslations('checkout');
-
+    const common = useTranslations('common');
 
 
     return (
@@ -151,7 +151,7 @@ shadow-sm
                     mt-1
                     "
                     >
-                        {item.price.toFixed(2)} QAR
+                        {item.price.toFixed(2)} {common('qar')}
                     </p>
 
 

@@ -22,7 +22,8 @@ interface Order {
 export default function OrderSuccessPage() {
 
     const params = useParams();
-     const t = useTranslations('checkout');
+    const t = useTranslations('checkout');
+    const common = useTranslations('common');
     const locale = useLocale();
 
 
@@ -263,7 +264,7 @@ export default function OrderSuccessPage() {
                                     text-[#40332a]
                                 "
                             >
-                                {order.total} QAR
+                                {order.total} {common('qar')}
                             </span>
 
                         </div>
