@@ -1,8 +1,8 @@
 
 
 import { apiClient } from "@/src/services/api";
-import { Category } from "@/types/category";
-import { MenuItem } from "@/types/menu";
+import { Category } from "@/src/types/category";
+import { MenuItem } from "@/src/types/menu";
 
 
 

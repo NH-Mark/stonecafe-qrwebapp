@@ -1,26 +1,38 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useOrderStore } from "../../../store/store";
-import { ArrowRight, ShoppingBag, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, Languages, ShoppingBag, UtensilsCrossed } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function OrderTypeSelector() {
 
     const router = useRouter();
+    const pathname = usePathname();
 
     const setType = useOrderStore(
         state => state.setType
     );
-
+    const t = useTranslations("orderType");
+    const locale = useLocale();
 
     function select(type: "dine_in" | "takeaway") {
 
         setType(type);
 
-        router.push("/menu");
+        router.push(`/${locale}/menu`);
 
     }
+    function changeLanguage(lang: "en" | "ar") {
 
+        const segments = pathname.split("/");
+
+        // replace current locale
+        segments[1] = lang;
+
+        router.push(segments.join("/"));
+
+    }
 
     return (
         <div className="min-h-screen bg-[#f3f3f3] flex justify-center">
@@ -30,11 +42,40 @@ export default function OrderTypeSelector() {
                 <div className="relative h-64 flex items-center justify-center">
                     <img src="/logo.png" className="w-40" alt="Logo" />
                 </div>
+                <div className="absolute top-5 right-5">
+
+                        <button
+                            onClick={() =>
+                                changeLanguage(
+                                    locale === "en" ? "ar" : "en"
+                                )
+                            }
+                            className="
+                                flex
+                                items-center
+                                gap-2
+                                bg-white
+                                shadow
+                                rounded-full
+                                px-4
+                                py-2
+                                text-sm
+                                font-semibold
+                                text-[#40332a]
+                            "
+                        >
+
+                            
+                            {locale === "en" ? "العربية" : "English"}
+
+                        </button>
+
+                    </div>
 
                 <div className="px-5 -mt-10">
 
                     <h3 className="text-center mt-8 mb-6 text-[#40332a] text-lg font-semibold">
-                        How would you like to order?
+                         {t("title")}
                     </h3>
 
                     {/* Cards */}
@@ -50,16 +91,16 @@ export default function OrderTypeSelector() {
                             </div>
 
                             <h2 className="mt-6 text-xl text-center font-bold text-[#40332a]">
-                                DINE IN
+                                 {t("dineIn")}
                             </h2>
 
                             <p className="mt-2 text-center text-sm text-gray-500">
-                                Enjoy your meal in our café
+                                  {t("dineInDesc")}
                             </p>
 
                             <div className="flex justify-center mt-7">
                                 <div className="w-12 h-12 rounded-full bg-[#40332a] flex items-center justify-center">
-                                    <ArrowRight color="white" />
+                                    <ArrowRight color="white" className="rtl:rotate-180"/>
                                 </div>
                             </div>
                         </div>
@@ -74,16 +115,19 @@ export default function OrderTypeSelector() {
                             </div>
 
                             <h2 className="mt-6 text-xl text-center font-bold text-[#40332a]">
-                                TAKE AWAY
+                                  {t("takeAway")}
                             </h2>
 
                             <p className="mt-2 text-center text-sm text-gray-500">
-                                Order food to take away
+                                 {t("takeAwayDesc")}
                             </p>
 
                             <div className="flex justify-center mt-7">
                                 <div className="w-12 h-12 rounded-full bg-[#40332a] flex items-center justify-center">
-                                    <ArrowRight color="white" />
+                                    <ArrowRight 
+                                        color="white"
+                                        className="rtl:rotate-180"
+                                    />
                                 </div>
                             </div>
                         </div>

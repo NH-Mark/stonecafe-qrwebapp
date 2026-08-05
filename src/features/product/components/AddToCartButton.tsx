@@ -3,8 +3,9 @@
 import { useRouter } from "next/navigation";
 import { Minus, Plus } from "lucide-react";
 
-import { MenuItem } from "@/types/menu";
+import { MenuItem } from "@/src/types/menu";
 import { CartModifier, useCartStore } from "@/src/store/useCartStore";
+import { useLocale, useTranslations } from "next-intl";
 
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
 
     setQuantity: (qty: number) => void;
 
-    selectedModifiers:  CartModifier[];
+    selectedModifiers: CartModifier[];
 
     unitPrice: number;
 
@@ -42,6 +43,10 @@ export default function AddToCartButton({
 
     const router = useRouter();
 
+    const t = useTranslations("product");
+
+    const locale = useLocale();
+
 
     const addItem =
         useCartStore(
@@ -50,27 +55,45 @@ export default function AddToCartButton({
 
 
 
-
-
     return (
-
 
         <div
 
             className="
-fixed
-bottom-0
-left-0
-right-0
-z-50
+                fixed
 
-px-4
-pb-4
+                bottom-0
 
-flex
-justify-center
+                left-1/2
 
-"
+                -translate-x-1/2
+
+
+                w-full
+
+                sm:max-w-md
+                md:max-w-xl
+                lg:max-w-2xl
+
+
+                z-50
+
+
+                bg-white
+
+                border-t
+                border-[#d9d9d8]
+
+
+                px-4
+
+                pt-3
+
+                pb-[max(env(safe-area-inset-bottom),16px)]
+
+
+                shadow-[0_-6px_25px_rgba(64,51,42,0.12)]
+            "
 
         >
 
@@ -78,21 +101,12 @@ justify-center
             <div
 
                 className="
-w-full
-sm:max-w-md
-md:max-w-xl
+                    w-full
 
-bg-white
-rounded-3xl
+                    flex
 
-shadow-2xl
-
-p-3
-
-flex
-gap-3
-
-"
+                    gap-3
+                "
 
             >
 
@@ -104,19 +118,21 @@ gap-3
                 <div
 
                     className="
-h-14
+                        h-14
 
-flex
-items-center
-gap-4
+                        flex
+                        items-center
+                        gap-3
 
-bg-[#efe5d9]
+                        bg-[#f3f3f3]
 
-rounded-2xl
+                        border
+                        border-[#d9d9d8]
 
-px-4
+                        rounded-2xl
 
-"
+                        px-3
+                    "
 
                 >
 
@@ -126,47 +142,55 @@ px-4
                         type="button"
 
                         onClick={() =>
-
-
                             setQuantity(
                                 Math.max(
                                     1,
                                     quantity - 1
                                 )
                             )
-
-
                         }
 
                         className="
-w-8
-h-8
-rounded-full
+                            w-9
+                            h-9
 
-flex
-items-center
-justify-center
+                            rounded-xl
 
-hover:bg-white/50
+                            bg-white
 
-"
+                            flex
+                            items-center
+                            justify-center
+
+                            text-[#40332a]
+
+                            shadow-sm
+
+                            active:scale-95
+                            transition
+                        "
 
                     >
 
-                        <Minus size={18} />
+                        <Minus size={17}/>
 
                     </button>
-
-
 
 
 
                     <span
 
                         className="
-font-black
-text-lg
-"
+                            min-w-5
+
+                            text-center
+
+                            font-black
+
+                            text-lg
+
+                            text-[#40332a]
+                        "
 
                     >
 
@@ -177,32 +201,37 @@ text-lg
 
 
 
-
                     <button
 
                         type="button"
 
-                        onClick={() => setQuantity(quantity + 1)}
+                        onClick={() =>
+                            setQuantity(quantity + 1)
+                        }
 
                         className="
-w-8
-h-8
-rounded-full
+                            w-9
+                            h-9
 
-flex
-items-center
-justify-center
+                            rounded-xl
 
-hover:bg-white/50
+                            bg-[#40332a]
 
-"
+                            text-white
+
+                            flex
+                            items-center
+                            justify-center
+
+                            active:scale-95
+                            transition
+                        "
 
                     >
 
-                        <Plus size={18} />
+                        <Plus size={17}/>
 
                     </button>
-
 
 
                 </div>
@@ -211,10 +240,8 @@ hover:bg-white/50
 
 
 
-
-
-
                 {/* ADD BUTTON */}
+
 
 
                 <button
@@ -234,6 +261,8 @@ hover:bg-white/50
 
                             name: product.name,
 
+                            name_ar: product.name_ar,
+
                             qty: quantity,
 
                             price: Number(unitPrice),
@@ -242,33 +271,11 @@ hover:bg-white/50
 
                             image: product.image ?? undefined,
 
-
-                            // modifierNames:
-
-                            //     product.modifier_groups
-
-                            //         ?.flatMap(
-                            //             group => group.modifiers
-                            //         )
-
-                            //         .filter(
-                            //             modifier =>
-                            //                 selectedModifiers.includes(
-                            //                     modifier.id
-                            //                 )
-                            //         )
-
-                            //         .map(
-                            //             modifier => modifier.name
-                            //         )
-
-
                         });
 
 
 
-                        router.push("/menu");
-
+                        router.push(`/${locale}/menu`);
 
                     }}
 
@@ -276,52 +283,51 @@ hover:bg-white/50
 
                     className={`
 
-flex-1
+                        flex-1
 
-h-14
+                        h-14
 
-rounded-2xl
+                        rounded-2xl
 
-px-5
+                        px-5
 
-font-bold
+                        font-bold
 
-flex
-items-center
-justify-between
+                        flex
+                        items-center
+                        justify-between
 
 
-${disabled
+                        transition
 
-                            ?
+                        active:scale-[0.97]
 
-                            "bg-gray-300 text-gray-500"
 
-                            :
-
-                            "bg-[#40332a] text-white"
-
+                        ${
+                            disabled
+                                ? "bg-[#d9d9d8] text-[#8b7355] cursor-not-allowed"
+                                : "bg-[#40332a] text-white shadow-lg hover:bg-[#30261f]"
                         }
 
-
-`}
-
+                    `}
 
                 >
 
 
                     <span>
 
-                        Add Item
+                        {t("addItem")}
 
                     </span>
+
 
 
                     <span
 
                         className="
-font-black
-"
+                            font-black
+                            text-sm
+                        "
 
                     >
 
@@ -333,16 +339,12 @@ font-black
                 </button>
 
 
-
             </div>
-
 
 
         </div>
 
 
-
     );
 
-
-}   
+}

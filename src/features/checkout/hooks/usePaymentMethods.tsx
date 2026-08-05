@@ -3,7 +3,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PaymentMethod } from "@/types/payment-method";
+import { PaymentMethod } from "@/src/types/payment-method";
 import { getPaymentMethods } from "@/src/services/payment.service";
 
 export function usePaymentMethods() {

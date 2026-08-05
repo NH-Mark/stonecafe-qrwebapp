@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
-import { Check, Coffee, ShoppingBag } from "lucide-react";
+import { Check, Coffee, Home, ShoppingBag } from "lucide-react";
 
 import PageLoader from "@/src/components/common/PageLoader";
 import { useCartStore } from "@/src/store/useCartStore";
+import { useLocale, useTranslations } from "next-intl";
 
 
 interface Order {
@@ -21,6 +22,9 @@ interface Order {
 export default function OrderSuccessPage() {
 
     const params = useParams();
+     const t = useTranslations('checkout');
+    const locale = useLocale();
+
 
     const [order, setOrder] =
         useState<Order | null>(null);
@@ -89,8 +93,7 @@ export default function OrderSuccessPage() {
     const isCard =
         order.payment_method === "SKIPCASH";
 
-
-
+   
     return (
 
         <main
@@ -161,8 +164,8 @@ export default function OrderSuccessPage() {
                     >
                         {
                             isCard
-                                ? "Payment Successful"
-                                : "Order Confirmed"
+                                ? t('paymentSuccessfull')
+                                : t('orderConfirmed')
                         }
                     </h1>
 
@@ -179,7 +182,7 @@ export default function OrderSuccessPage() {
                         "
                     >
 
-                        Thank you for your order
+                       {t('thanksMsg')}
 
                         <Coffee
                             className="w-4 h-4"
@@ -219,7 +222,7 @@ export default function OrderSuccessPage() {
                                     text-[#a57650]
                                 "
                             >
-                                Order No
+                               {t('orderNo')}
                             </span>
 
 
@@ -250,7 +253,7 @@ export default function OrderSuccessPage() {
                                     text-[#a57650]
                                 "
                             >
-                                Amount
+                                {t('amount')}
                             </span>
 
 
@@ -283,7 +286,7 @@ export default function OrderSuccessPage() {
                                     text-[#a57650]
                                 "
                             >
-                                Status
+                                {t('status')}
                             </span>
 
 
@@ -332,7 +335,7 @@ export default function OrderSuccessPage() {
                     <button
 
                         onClick={() =>
-                            window.location.href = "/menu"
+                            window.location.href =  `/${locale}`
                         }
 
                         className="
@@ -352,11 +355,11 @@ export default function OrderSuccessPage() {
                         "
                     >
 
-                        <ShoppingBag
+                        <Home
                             className="w-5 h-5"
                         />
 
-                        Continue Ordering
+                        {t('backToHome')}
 
                     </button>
 
@@ -373,7 +376,7 @@ export default function OrderSuccessPage() {
                         "
                     >
 
-                        We are preparing your delicious order
+                        {t('successDesc')}
 
                     </p>
 

@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
-import { MenuItem } from "@/types/menu";
+import { MenuItem } from "@/src/types/menu";
 
 import { getProduct } from "@/src/features/product/product.service";
 
 import CustomerHeader from "@/src/components/CustomerHeader";
 import ProductDetails from "@/src/features/product/components/ProductDetails";
 import PageLoader from "@/src/components/common/PageLoader";
+import { useLocale, useTranslations } from "next-intl";
 
 
 export default function ProductPage(){
@@ -29,7 +30,8 @@ export default function ProductPage(){
     const [loading,setLoading] =
         useState(true);
 
-
+    const t = useTranslations("product");
+    const locale = useLocale();
 
 
 
@@ -132,9 +134,9 @@ export default function ProductPage(){
 
             <CustomerHeader
 
-                title="Details"
+                title={t("title")}
 
-                backUrl="/menu"
+                backUrl={`/${locale}/menu`}
 
             />
 

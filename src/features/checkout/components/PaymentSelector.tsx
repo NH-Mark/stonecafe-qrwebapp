@@ -1,6 +1,6 @@
 "use client";
 
-import { PaymentMethod } from "@/types/payment-method";
+import { PaymentMethod } from "@/src/types/payment-method";
 import {
     Banknote,
     CreditCard,
@@ -8,6 +8,7 @@ import {
     Smartphone,
     Wallet
 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 
 interface Props {
@@ -47,11 +48,14 @@ export default function PaymentSelector({
     setPayment
 
 }: Props) {
+
+    const t = useTranslations('checkout');
+    const locale = useLocale();
 if (!methods.length) {
     return (
         <section className="bg-white rounded-3xl p-5 shadow-sm">
             <p className="text-sm text-gray-500">
-                Loading payment methods...
+                {t('loadingPaymentMethod')}
             </p>
         </section>
     );
@@ -68,7 +72,7 @@ if (!methods.length) {
         >
 
             <h2 className="font-bold text-lg mb-4">
-                Payment Method
+                {t('paymentMethod')}
             </h2>
 
             <div
@@ -79,8 +83,13 @@ if (!methods.length) {
                 "
             >
 
-                {methods.map(method => (
-
+                {methods.map(method =>{
+                    const method_name =
+                                                locale === "ar"
+                                                ? method.name_ar?.trim() || method.name
+                                                : method.name;
+                    return (
+                    
                     <button
 
                         key={method.id}
@@ -111,12 +120,12 @@ if (!methods.length) {
                         {getIcon(method.code)}
 
                         <span className="text-sm font-semibold">
-                            {method.name}
+                            {method_name}
                         </span>
 
                     </button>
 
-                ))}
+                )})}
 
             </div>
 

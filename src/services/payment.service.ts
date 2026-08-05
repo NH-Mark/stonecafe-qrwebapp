@@ -1,7 +1,7 @@
 // services/payment.service.ts
 
 import {apiClient} from "@/src/services/api";
-import { PaymentMethod } from "@/types/payment-method";
+import { PaymentMethod } from "@/src/types/payment-method";
 
 export async function getPaymentMethods() {
     const response = await apiClient<{

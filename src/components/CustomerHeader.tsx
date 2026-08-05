@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Languages } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 
 
 interface Props {
@@ -21,6 +23,21 @@ export default function CustomerHeader({
     backUrl = "/",
 
 }: Props) {
+
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const locale = useLocale();
+
+    function changeLanguage(lang: "en" | "ar") {
+
+        const segments = pathname.split("/");
+
+        segments[1] = lang;
+
+        router.push(segments.join("/"));
+
+    }
 
 
     return (
@@ -150,60 +167,80 @@ object-contain
 
 
 
-                {/* RIGHT TITLE */}
-
-
                 <div
-
                     className="
-min-w-[80px]
-
-flex
-justify-end
-
-"
-
+                        flex
+                        items-center
+                        gap-3
+                    "
                 >
 
+                    {/* Language */}
 
-                    <h1
-
+                    <button
+                        onClick={() =>
+                            changeLanguage(
+                                locale === "en" ? "ar" : "en"
+                            )
+                        }
                         className="
-text-sm
-font-bold
+                            h-10
+                            min-w-10
+                            px-3
+                            rounded-full
+                            bg-[#f7f2ec]
+                            flex
+                            items-center
+                            justify-center
+                            active:scale-95
+                            transition
+                            text-sm
+                            font-bold
+                            text-[#40332a]
+                        "
+                    >
+                        {locale === "en" ? "عربي" : "EN"}
+                    </button>
 
-uppercase
 
-tracking-wide
 
-text-[#40332a]
+                    {/* Title */}
 
-truncate
-
-"
-
+                    <div
+                        className="
+                            min-w-[80px]
+                            flex
+                            justify-end
+                        "
                     >
 
-                        {title}
+                        <h1
+                            className="
+                                text-sm
+                                font-bold
+                                uppercase
+                                tracking-wide
+                                text-[#40332a]
+                                truncate
+                            "
+                        >
 
-                    </h1>
+                            {title}
+
+                        </h1>
+
+                    </div>
 
 
                 </div>
 
 
-
-
-
             </div>
-
 
 
         </header>
 
 
-
     );
-
 
 }

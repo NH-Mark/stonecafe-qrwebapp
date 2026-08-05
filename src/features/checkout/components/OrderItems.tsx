@@ -7,6 +7,7 @@ import {
     Plus,
     Trash2
 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 
 export default function OrderItems() {
@@ -17,6 +18,9 @@ export default function OrderItems() {
         updateQty,
         removeItem
     } = useCartStore();
+
+    const locale = useLocale();
+    const t = useTranslations('checkout');
 
 
 
@@ -32,7 +36,7 @@ shadow-sm
 >
 
     <h2 className="font-bold text-lg mb-4">
-        Your Order
+       {t('yourOrder')}
     </h2>
 
 
@@ -47,8 +51,13 @@ shadow-sm
     >
 
     {
-        items.map(item => (
+        items.map(item => {
 
+        const item_name =
+                            locale === "ar"
+                            ? item.name_ar?.trim() || item.name
+                            : item.name;
+        return (        
             <div
             key={item.id}
             className="
@@ -92,7 +101,7 @@ shadow-sm
                     truncate
                     "
                     >
-                        {item.name}
+                        {item_name}
                     </h3>
 
 
@@ -101,14 +110,32 @@ shadow-sm
 
                             <p
                                 className="
-                                text-xs
-                                text-gray-500
-                                truncate
+                                    text-xs
+                                    text-gray-500
+                                    truncate
                                 "
                             >
-                                {item.modifiers
-                                    .map(modifier => `${modifier.groupName}: ${modifier.name}`)
-                                    .join(" • ")}
+                                {
+                                    item.modifiers
+                                        .map((modifier) => {
+
+                                            const groupName =
+                                                locale === "ar"
+                                                    ? modifier.groupName_ar?.trim() || modifier.groupName
+                                                    : modifier.groupName;
+
+
+                                            const name =
+                                                locale === "ar"
+                                                    ? modifier.name_ar?.trim() || modifier.name
+                                                    : modifier.name;
+
+
+                                            return `${groupName}: ${name}`;
+
+                                        })
+                                        .join(" • ")
+                                }
                             </p>
 
                         )
@@ -231,7 +258,8 @@ shadow-sm
             </div>
 
 
-        ))
+        )})
+    
     }
 
 

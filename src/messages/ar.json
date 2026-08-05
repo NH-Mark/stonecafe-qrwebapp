@@ -1,0 +1,62 @@
+{
+  "orderType": {
+    "title": "كيف تود الطلب؟",
+    "dineIn": "تناول في المطعم",
+    "dineInDesc": "استمتع بوجبتك في المقهى",
+    "takeAway": "طلب خارجي",
+    "takeAwayDesc": "اطلب الطعام للاستلام الخارجي"
+  },
+  "menu":{
+    "title":"قائمة طعام",
+    "searchPlaceholder":"البحث عن طعام...",
+    "popularItems":"منتجات شائعة"
+  },
+  "cart":{
+    "viewCart":"عرض عربة التسوق",
+    "item":"غرض",
+    "items":"أغراض"
+  },
+  "product":{
+    "required":"مطلوب",
+    "chooseOne":"اختر واحداً",
+    "chooseMultiple":"اختر متعددًا",
+    "addItem":"إضافة عنصر",
+    "title":"تفاصيل"
+  },
+  "checkout":{
+    "title":"الدفع",
+    "cartEmptyMsg":"عربة التسوق فارغة",
+    "cartEmptyDesc":"أضف أصنافاً لذيذة من قائمتنا",
+    "browseMenu":"تصفح القائمة",
+    "customerTitle":"تفاصيل العميل",
+    "mobNo":"رقم الهاتف المحمول",
+    "returningCustomer":"عميل عائد",
+    "customer":"عميل",
+    "rewardPoints":"نقاط المكافأة",
+    "yourOrder":"طلبك",
+    "newCustomer":"عميل جديد",
+    "newCusDesc":"ستبدأ في كسب المكافآت مع هذا الطلب.",
+    "fullName":"الاسم الكامل",
+    "specialInstructions":"تعليمات خاصة",
+    "specInstructnPlaceholder":"سكر أقل، حساسية، حار جداً...",
+    "customerName":"اسم العميل",
+    "loadingPaymentMethod":"جارٍ تحميل طرق الدفع...",
+    "paymentMethod":"طريقة الدفع",
+     "placeOrder":"إتمام الطلب",
+    "placing":"وضع..",
+    "totalAmount":"المبلغ الإجمالي",
+    "paymentFailed":"فشلت عملية الدفع",
+    "somethingWentWrong":"حدث خطأ ما",
+    "failureMsg":"لم نتمكن من إتمام عملية الدفع الخاصة بك.",
+    "tryPaymentAgain":"حاول الدفع مرة أخرى",
+    "backToHome":"العودة إلى الصفحة الرئيسية",
+    "failureDesc":"لا تقلق، طلبك لا يزال محفوظاً.",
+    "thanksMsg":"شكراً لطلبك",
+    "orderNo":"رقم الطلب",
+    "amount":"كمية",
+    "status":"حالة",
+    "successDesc":"نُجهّز طلبك اللذيذ.",
+     "orderConfirmed":"تم تأكيد الطلب",
+    "paymentSuccessfull":"تمت عملية الدفع بنجاح"
+  }
+}

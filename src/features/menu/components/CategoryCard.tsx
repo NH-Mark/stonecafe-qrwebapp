@@ -13,6 +13,7 @@ export default function CategoryCard({
   subtitle = "Explore menu",
   active = false,
 }: Props) {
+  
   return (
     <div
       className={`relative w-40 h-40 shrink-0 rounded-3xl overflow-hidden transition-all duration-300 ease-out
@@ -51,9 +52,9 @@ export default function CategoryCard({
         </h2>
 
         {/* SUBTITLE (optional lighter weight) */}
-        <p className="text-[10px] text-[#7a6d63] text-center leading-tight -mt-1">
+        {/* <p className="text-[10px] text-[#7a6d63] text-center leading-tight -mt-1">
           {subtitle}
-        </p>
+        </p> */}
 
         {/* INDICATOR */}
         <div

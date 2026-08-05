@@ -1,5 +1,5 @@
 import { apiClient } from "@/src/services/api";
-import { CustomerLookup } from "@/types/customer";
+import { CustomerLookup } from "@/src/types/customer";
 
 
 export async function findCustomerByPhone(

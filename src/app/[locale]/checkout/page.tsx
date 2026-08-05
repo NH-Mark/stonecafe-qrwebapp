@@ -27,11 +27,15 @@ import {
 } from "@/src/features/checkout/hooks/usePaymentMethods";
 import { createCustomerOrder, findCustomerByPhone } from "@/src/features/checkout/checkout.service";
 import { useOrderStore } from "@/src/store/store";
-import { Customer } from "@/types/customer";
+import { Customer } from "@/src/types/customer";
 import { useRouter } from "next/router";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function CheckoutPage() {
     const [loading, setLoading] = useState(false);
+
+    const t = useTranslations("checkout");
+    const locale = useLocale();
 
     const {
         methods
@@ -251,7 +255,7 @@ export default function CheckoutPage() {
 
 
             window.location.href =
-            `/order-success/${order.id}`;
+            `/${locale}/order-success/${order.id}`;
 
 
 
@@ -272,11 +276,6 @@ export default function CheckoutPage() {
 
 
             }
-
-
-
-
-
 
 
     if (items.length === 0) {
@@ -325,7 +324,7 @@ export default function CheckoutPage() {
                     text-[#40332a]
                     "
                     >
-                        Your Cart is Empty
+                        {t('cartEmptyMsg')}
                     </h1>
 
 
@@ -335,7 +334,7 @@ export default function CheckoutPage() {
                     mt-2
                     "
                     >
-                        Add delicious items from our menu
+                         {t('cartEmptyDesc')}
                     </p>
 
 
@@ -352,7 +351,7 @@ export default function CheckoutPage() {
                     font-bold
                     "
                     >
-                        Browse Menu
+                         {t('browseMenu')}
                     </Link>
 
 
@@ -383,9 +382,9 @@ export default function CheckoutPage() {
 
             <CustomerHeader
 
-                title="CHECKOUT"
+                title={t('title')}
 
-                backUrl="/menu"
+                backUrl={`/${locale}/menu`}
 
 
 

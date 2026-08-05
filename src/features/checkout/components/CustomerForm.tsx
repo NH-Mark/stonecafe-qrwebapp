@@ -24,7 +24,8 @@ import {
 import {
     Customer,
     CustomerLookup
-} from "@/types/customer";
+} from "@/src/types/customer";
+import { useLocale, useTranslations } from "next-intl";
 
 
 interface Props {
@@ -53,7 +54,9 @@ export default function CustomerForm({
 
 }: Props) {
 
-
+    const t = useTranslations("checkout");
+    const locale = useLocale();
+    const isRTL = locale === "ar";
     const [checking, setChecking] =
         useState(false);
 
@@ -131,7 +134,7 @@ export default function CustomerForm({
 
 
 
-            } catch(error) {
+            } catch (error) {
 
 
                 setMember(null);
@@ -179,7 +182,7 @@ export default function CustomerForm({
             <CardHeader>
 
                 <CardTitle>
-                    Customer Details
+                    {t('customerTitle')}
                 </CardTitle>
 
             </CardHeader>
@@ -200,146 +203,76 @@ export default function CustomerForm({
 
                 <div className="space-y-2">
 
+    <label
+        dir="auto"
+        className="block text-sm font-medium text-start"
+    >
+        {t("mobNo")}
+    </label>
 
-                    <label
-                        className="
-                        text-sm
-                        font-medium
-                        "
-                    >
-                        Mobile Number
-                    </label>
+    <div className="flex flex-row" dir="ltr">
 
+        {/* Country Code */}
+        <div
+            className="
+                h-12
+                px-4
+                rounded-l-2xl
+                border
+                border-r-0
+                bg-muted
+                flex
+                items-center
+                justify-center
+                font-bold
+                whitespace-nowrap
+            "
+        >
+            +974
+        </div>
 
+        {/* Phone Input */}
+        <div className="relative flex-1">
 
-                    <div
-                        className="
-                        flex
-                        "
-                    >
+            <Phone
+                size={18}
+                className="
+                    absolute
+                    left-3
+                    top-1/2
+                    -translate-y-1/2
+                    text-muted-foreground
+                "
+            />
 
+            <Input
+                type="tel"
+                inputMode="numeric"
+                maxLength={8}
+                dir="ltr"
+                placeholder="55123456"
+                value={customer.phone ?? ""}
+                onChange={(e) =>
+                    updateCustomer(
+                        "phone",
+                        e.target.value.replace(/\D/g, "")
+                    )
+                }
+                className="
+                    h-12
+                    rounded-l-none
+                    rounded-r-2xl
+                    pl-10
+                    pr-10
+                    text-left
+                "
+            />
 
-                        <div
-                            className="
-                            h-12
-                            px-4
-                            rounded-l-2xl
-                            border
-                            border-r-0
-                            bg-muted
-                            flex
-                            items-center
-                            font-bold
-                            "
-                        >
+        </div>
 
-                            +974
+    </div>
 
-                        </div>
-
-
-
-                        <div
-                            className="
-                            relative
-                            flex-1
-                            "
-                        >
-
-
-                            <Phone
-
-                                size={18}
-
-                                className="
-                                absolute
-                                left-3
-                                top-3.5
-                                text-muted-foreground
-                                "
-
-                            />
-
-
-
-                            <Input
-
-
-                                type="tel"
-
-                                inputMode="numeric"
-
-                                maxLength={8}
-
-
-                                placeholder="55123456"
-
-
-                                value={
-                                    customer.phone ?? ""
-                                }
-
-
-                                onChange={(e)=>
-
-                                    updateCustomer(
-                                        "phone",
-                                        e.target.value.replace(
-                                            /\D/g,
-                                            ""
-                                        )
-                                    )
-
-                                }
-
-
-                                className="
-                                h-12
-                                rounded-l-none
-                                rounded-r-2xl
-                                pl-10
-                                "
-
-                            />
-
-
-
-                            {
-                                checking &&
-
-                                <Loader2
-
-                                    size={18}
-
-                                    className="
-                                    absolute
-                                    right-3
-                                    top-3.5
-                                    animate-spin
-                                    text-gray-500
-                                    "
-
-                                />
-
-                            }
-
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-
-
-
-
-
-                {/* EXISTING CUSTOMER */}
-
-
+</div>
 
                 {
                     member &&
@@ -385,7 +318,7 @@ export default function CustomerForm({
                                 "
                             >
 
-                                Returning Customer
+                                {t('returningCustomer')}
 
                             </span>
 
@@ -401,7 +334,7 @@ export default function CustomerForm({
                             "
                         >
 
-                            {member.name ?? "Customer"}
+                            {member.name ?? t('customer')}
 
                         </p>
 
@@ -418,7 +351,7 @@ export default function CustomerForm({
                         >
 
 
-                            <Gift size={18}/>
+                            <Gift size={18} />
 
 
                             <span
@@ -432,7 +365,7 @@ export default function CustomerForm({
                                     0
                                 }
 
-                                {" "}Reward Points
+                                {" "} {t('rewardPoints')}
 
 
                             </span>
@@ -498,7 +431,7 @@ export default function CustomerForm({
                                 "
                             >
 
-                                New Customer
+                                {t('newCustomer')}
 
                             </span>
 
@@ -515,8 +448,7 @@ export default function CustomerForm({
                             "
                         >
 
-                            You will start earning rewards
-                            with this order.
+                            {t('newCusDesc')}
 
                         </p>
 
@@ -549,7 +481,7 @@ export default function CustomerForm({
                         "
                     >
 
-                        Full Name
+                        {t('fullName')}
 
                     </label>
 
@@ -580,7 +512,7 @@ export default function CustomerForm({
                         <Input
 
 
-                            placeholder="Customer Name"
+                            placeholder={t('customerName')}
 
 
                             value={
@@ -588,7 +520,7 @@ export default function CustomerForm({
                             }
 
 
-                            onChange={(e)=>
+                            onChange={(e) =>
 
                                 updateCustomer(
                                     "name",
@@ -637,7 +569,7 @@ export default function CustomerForm({
                         "
                     >
 
-                        Special Instructions
+                        {t('specialInstructions')}
 
                     </label>
 
@@ -668,9 +600,7 @@ export default function CustomerForm({
                         <Textarea
 
 
-                            placeholder="
-                            Less sugar, allergies, extra spicy...
-                            "
+                            placeholder={t('specInstructnPlaceholder')}
 
 
                             value={
@@ -678,7 +608,7 @@ export default function CustomerForm({
                             }
 
 
-                            onChange={(e)=>
+                            onChange={(e) =>
 
                                 updateCustomer(
                                     "note",

@@ -1,15 +1,19 @@
 "use client";
 
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+
 
 interface Props {
 
     total: number;
 
     placeOrder: () => void;
+
     loading: boolean;
 
 }
+
 
 
 export default function CheckoutSummary({
@@ -17,54 +21,77 @@ export default function CheckoutSummary({
     total,
 
     placeOrder,
+
     loading
 
 }: Props) {
 
+    const t = useTranslations('checkout');
+    const locale = useLocale();
+    
+    const Arrow = locale === "ar"
+        ? ChevronLeft
+        : ChevronRight;
 
     return (
 
         <div
 
             className="
-fixed
-bottom-0
-left-0
-right-0
-z-50
+                fixed
 
-px-4
-pb-4
+                bottom-0
 
-pointer-events-none
+                left-1/2
 
-"
+                -translate-x-1/2
+
+
+                w-full
+
+                sm:max-w-md
+                md:max-w-xl
+                lg:max-w-2xl
+
+
+                z-50
+
+
+                px-4
+
+                pt-3
+
+                pb-[max(env(safe-area-inset-bottom),16px)]
+
+
+                bg-white
+
+                border-t
+                border-[#d9d9d8]
+
+
+                shadow-[0_-6px_25px_rgba(64,51,42,0.12)]
+            "
 
         >
+
+
             <div
 
                 className="
-mx-auto
+                    w-full
 
-w-full
+                    bg-white
 
-sm:max-w-md
-md:max-w-xl
+                    rounded-3xl
 
-bg-white
+                    border
+                    border-[#eee7df]
 
-rounded-3xl
+                    shadow-sm
 
-shadow-[0_-8px_30px_rgba(0,0,0,0.08)]
-
-border
-border-[#eee7df]
-
-p-3
-
-pointer-events-auto
-
-"
+                    p-3
+                "
 
             >
 
@@ -72,11 +99,10 @@ pointer-events-auto
                 <div
 
                     className="
-flex
-items-center
-gap-3
-
-"
+                        flex
+                        items-center
+                        gap-3
+                    "
 
                 >
 
@@ -88,10 +114,9 @@ gap-3
                     <div
 
                         className="
-flex-1
-px-3
-
-"
+                            flex-1
+                            px-2
+                        "
 
                     >
 
@@ -99,35 +124,45 @@ px-3
                         <p
 
                             className="
-text-xs
-text-gray-500
-font-medium
-"
+                                text-xs
+                                text-[#8b7355]
+                                font-medium
+                            "
 
                         >
 
-                            Total Amount
+                             {t('totalAmount')}
 
                         </p>
+
 
 
                         <p
 
                             className="
-text-xl
-font-black
-text-[#40332a]
-"
+                                text-xl
+                                font-black
+                                text-[#40332a]
+                            "
 
                         >
 
                             {total.toFixed(2)}
 
-                            <span className="text-sm ml-1">
+                            <span
+
+                                className="
+                                    text-sm
+                                    ml-1
+                                    font-bold
+                                "
+
+                            >
 
                                 QAR
 
                             </span>
+
 
                         </p>
 
@@ -138,64 +173,85 @@ text-[#40332a]
 
 
 
-
-
                     {/* BUTTON */}
 
 
                     <button
-
                         onClick={placeOrder}
-
                         disabled={loading}
-
                         className={`
-h-14
-px-6
-rounded-2xl
-font-black
-text-base
-flex
-items-center
-justify-center
-gap-2
-shadow-lg
-transition
+        h-14
+        px-6
+        rounded-2xl
 
-${loading
-                                ? "bg-gray-400 cursor-not-allowed"
-                                : "bg-[#40332a] text-white active:scale-95"}
-`}
+        font-black
+        text-base
+
+        flex
+        items-center
+        justify-center
+
+        gap-2
+
+        transition
+
+        active:scale-[0.97]
+
+        ${loading
+                                ? "bg-[#d9d9d8] text-[#8b7355] cursor-not-allowed"
+                                : "bg-[#40332a] text-white shadow-lg hover:bg-[#30261f]"
+                            }
+    `}
                     >
 
-                        {loading ? (
 
-                            <>
+                        {
 
-                                <Loader2
-                                    size={18}
-                                    className="animate-spin"
-                                />
+                            loading
 
-                                <span>
-                                    Placing Order...
-                                </span>
+                                ?
 
-                            </>
+                                <>
 
-                        ) : (
+                                    <Loader2
 
-                            <>
+                                        size={18}
 
-                                <span>
-                                    Place Order
-                                </span>
+                                        className="animate-spin"
 
-                                <ArrowRight size={18} />
+                                    />
 
-                            </>
 
-                        )}
+                                    <span>
+
+                                         {t('placing')}
+
+                                    </span>
+
+
+                                </>
+
+                                :
+
+                                <>
+
+                                    <span>
+
+                                        {t('placeOrder')}
+
+                                    </span>
+
+
+                                    <Arrow
+
+                                        size={18}
+
+                                    />
+
+                                </>
+
+                        }
+
 
                     </button>
 
@@ -211,6 +267,5 @@ ${loading
 
 
     );
-
 
 }

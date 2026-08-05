@@ -8,8 +8,10 @@ export interface CartModifier {
     groupId: number;
 
     groupName: string;
+    groupName_ar?: string;
 
     name: string;
+    name_ar?:string;
 
     price: number;
 
@@ -22,6 +24,8 @@ export interface CartItem {
     product_id: number;
 
     name: string;
+
+    name_ar?: string | null;
 
     price: number;
 

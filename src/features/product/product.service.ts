@@ -1,5 +1,5 @@
 import { apiClient } from "@/src/services/api";
-import { MenuItem } from "@/types/menu";
+import { MenuItem } from "@/src/types/menu";
 
 
 

@@ -4,8 +4,10 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 
 import { imageUrl } from "@/src/utils/image";
-import { MenuItem } from "@/types/menu";
+import { MenuItem } from "@/src/types/menu";
 import AddToCartButton from "./AddToCartButton";
+import { useLocale } from "next-intl";
+import { useTranslations } from "use-intl";
 
 
 interface Props {
@@ -25,6 +27,19 @@ export default function ProductDetails({
     const [selectedModifiers, setSelectedModifiers]
         =
         useState<Record<number, number[]>>({});
+
+    const locale = useLocale();
+    const t = useTranslations("product");
+
+    const name =
+        locale === "ar"
+        ? product.name_ar?.trim() || product.name
+        : product.name;
+
+    const description =
+        locale === "ar"
+        ? product.description_ar?.trim() || product.description
+        : product.description;
 
     function toggleModifier(
         group: any,
@@ -105,7 +120,9 @@ export default function ProductDetails({
                     id: modifier.id,
                     groupId: group.id,
                     groupName: group.name,
+                    groupName_ar: group.name_ar,
                     name: modifier.name,
+                    name_ar: modifier.name_ar,
                     price: Number(modifier.price)
                 }))
 
@@ -252,7 +269,7 @@ text-[#40332a]
 "
                     >
 
-                        {product.name}
+                        {name}
 
                     </h1>
 
@@ -283,7 +300,7 @@ font-bold
 
 
                 {
-                    product.description &&
+                    description &&
 
                     <p
                         className="
@@ -293,13 +310,11 @@ text-gray-500
 "
                     >
 
-                        {product.description}
+                        {description}
 
                     </p>
 
                 }
-
-
 
             </div>
 
@@ -337,6 +352,13 @@ mt-6
 
                         const selectedCount =
                             selectedModifiers[group.id]?.length ?? 0;
+
+                          const group_name =
+                            locale === "ar"
+                            ? group.name_ar?.trim() || group.name
+                            : group.name;
+
+  
 
 
 
@@ -378,7 +400,7 @@ text-[#40332a]
 "
                                         >
 
-                                            {group.name}
+                                            {group_name}
 
                                         </h3>
 
@@ -399,7 +421,7 @@ rounded-full
 "
                                             >
 
-                                                Required
+                                                {t('required')}
 
                                             </span>
 
@@ -425,9 +447,9 @@ rounded-full
                                         {
                                             type === "single"
                                                 ?
-                                                "Choose one"
+                                                t('chooseOne')
                                                 :
-                                                "Choose multiple"
+                                                t('chooseMultiple')
                                         }
 
                                     </span>
@@ -451,6 +473,10 @@ space-y-2
                                     {
                                         group.modifiers.map(modifier => {
 
+                                              const modifier_name =
+                                                locale === "ar"
+                                                ? modifier.name_ar?.trim() || modifier.name
+                                                : modifier.name;
 
                                             const selected =
 
@@ -557,7 +583,7 @@ text-[#40332a]
 "
                                                         >
 
-                                                            {modifier.name}
+                                                            {modifier_name}
 
                                                         </span>
 
@@ -567,17 +593,13 @@ text-[#40332a]
 
 
 
-                                                    <span
+                                                  <span
                                                         className="
-text-sm
-text-gray-500
-"
+                                                            text-sm
+                                                            text-gray-500
+                                                        "
                                                     >
-
-                                                        +
-                                                        {Number(modifier.price).toFixed(2)}
-                                                        QAR
-
+                                                        + {Number(modifier.price).toFixed(2)} QAR
                                                     </span>
 
 

@@ -2,11 +2,14 @@
 
 import { useParams } from "next/navigation";
 import { XCircle, Coffee, RefreshCcw } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 
 export default function OrderFailedPage() {
 
     const params = useParams();
+    const t = useTranslations('checkout')
+    const locale = useLocale();
     const retryPayment = async () => {
 
         try {
@@ -99,7 +102,7 @@ export default function OrderFailedPage() {
                             text-white
                         "
                     >
-                        Payment Failed
+                        {t('paymentFailed')}
                     </h1>
 
 
@@ -113,7 +116,7 @@ export default function OrderFailedPage() {
                             gap-2
                         "
                     >
-                        Something went wrong
+                        {t('somethingWentWrong')}
                         <Coffee className="w-4 h-4" />
                     </p>
 
@@ -140,7 +143,7 @@ export default function OrderFailedPage() {
                                 font-medium
                             "
                         >
-                            We couldn't complete your payment.
+                           {t('failureMsg')}
                         </p>
 
 
@@ -177,13 +180,13 @@ export default function OrderFailedPage() {
                         "
                     >
                         <RefreshCcw className="w-5 h-5" />
-                        Try Payment Again
+                       {t('tryPaymentAgain')}
                     </button>
 
 
                     <button
                         onClick={() => {
-                            window.location.href = "/";
+                            window.location.href =  `/${locale}`
                         }}
                         className="
                             mt-3
@@ -198,7 +201,7 @@ export default function OrderFailedPage() {
                             transition
                         "
                     >
-                        Back To Home
+                        {t('backToHome')}
                     </button>
 
 
@@ -211,7 +214,7 @@ export default function OrderFailedPage() {
                             text-[#c3b6a4]
                         "
                     >
-                        Don't worry, your order is still saved
+                        {t('failureDesc')}
                     </p>
 
 

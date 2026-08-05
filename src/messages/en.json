@@ -1,0 +1,65 @@
+{
+  "orderType": {
+    "title": "How would you like to order?",
+    "dineIn": "DINE IN",
+    "dineInDesc": "Enjoy your meal in our café",
+    "takeAway": "TAKE AWAY",
+    "takeAwayDesc": "Order food to take away"
+  },
+  "menu":{
+    "title":"MENU",
+    "searchPlaceholder":"Search Food...",
+    "popularItems":"Popular Items"
+  },
+  "cart":{
+    "viewCart":"View Cart",
+    "item":"Item",
+    "items":"Items"
+  },
+  "product":{
+    "required":"Required",
+    "chooseOne":"Choose One",
+    "chooseMultiple":"Choose Multiple",
+    "addItem":"Add Item",
+    "title":"Details"
+  },
+  "checkout":{
+    "title":"Checkout",
+    "cartEmptyMsg":"Your Cart is Empty",
+    "cartEmptyDesc":"Add delicious items from our menu",
+    "browseMenu":"Browse Menu",
+    "customerTitle":"Customer Details",
+    "mobNo":"Mobile Number",
+    "returningCustomer":"Returning Customer",
+    "customer":"Customer",
+    "rewardPoints":"Reward Points",
+    "yourOrder":"Your Order",
+    "newCustomer":"New Customer",
+    "newCusDesc":"You will start earning rewardswith this order.",
+    "fullName":"Full Name",
+    "specialInstructions":"Special Instructions",
+    "specInstructnPlaceholder":"Less sugar, allergies, extra spicy...",
+    "customerName":"Customer Name",
+    "loadingPaymentMethod":"Loading payment methods...",
+    "paymentMethod":"Payment Method",
+    "placeOrder":"Place Order",
+    "placing":"Placing..",
+    "totalAmount":"Total Amount",
+    "paymentFailed":"Payment Failed",
+    "somethingWentWrong":"Something Went Wrong",
+    "failureMsg":" We couldn't complete your payment.",
+    "tryPaymentAgain":"Try Payment Again",
+    "backToHome":"Back To Home",
+    "failureDesc":"Don't worry, your order is still saved",
+    "thanksMsg":" Thank you for your order",
+    "orderNo":"Order No",
+    "amount":"Amount",
+    "status":"Status",
+    "successDesc":"We are preparing your delicious order",
+    "orderConfirmed":"Order Confirmed",
+    "paymentSuccessfull":"Payment Successful"
+
+
+
+  }
+}

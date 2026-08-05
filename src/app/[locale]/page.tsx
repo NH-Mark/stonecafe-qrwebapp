@@ -1,5 +1,6 @@
+import OrderTypeSelector from "@/src/features/order-type/components/OrderTypeSelector";
 import Image from "next/image";
-import OrderTypeSelector from "../features/order-type/components/OrderTypeSelector";
+
 
 export default function Home() {
   return (
