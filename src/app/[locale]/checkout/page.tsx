@@ -130,14 +130,14 @@ export default function CheckoutPage() {
         |--------------------------------------------------------------------------
         */
 
-        if (!tableId) {
+        // if (!tableId) {
 
-            toast.error(
-                "Table information is missing."
-            );
+        //     toast.error(
+        //         "Table information is missing."
+        //     );
 
-            return;
-        }
+        //     return;
+        // }
 
         /*
         |--------------------------------------------------------------------------
@@ -163,8 +163,7 @@ export default function CheckoutPage() {
 
             const payload = {
 
-                table_id:
-                    Number(tableId),
+                table_id: tableId ? Number(tableId) : null,
 
                 customer:
                     customer.name ||
