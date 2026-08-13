@@ -136,7 +136,7 @@ export default function ProductPage(){
 
                 title={t("title")}
 
-                backUrl={`/${locale}/menu`}
+                backUrl={`/menu`}
 
             />
 

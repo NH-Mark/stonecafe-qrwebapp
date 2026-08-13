@@ -1,171 +1,215 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Languages } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import {
+    ArrowLeft,
+} from "lucide-react";
 
+import {
+    usePathname,
+    useRouter,
+    useSearchParams,
+} from "next/navigation";
+
+import {
+    useLocale,
+} from "next-intl";
 
 interface Props {
-
     title: string;
-
     backUrl?: string;
-
 }
 
-
-
 export default function CustomerHeader({
-
     title,
-
     backUrl = "/",
-
 }: Props) {
 
     const router = useRouter();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
 
     const locale = useLocale();
 
-    function changeLanguage(lang: "en" | "ar") {
+    const params =
+        new URLSearchParams(
+            searchParams.toString()
+        );
 
-        const segments = pathname.split("/");
+    const query =
+        params.toString();
+
+    const resolvedBackUrl =
+        `/${locale}${backUrl}${
+            query
+                ? `?${query}`
+                : ""
+        }`;
+
+    /*
+    |--------------------------------------------------------------------------
+    | Preserve table_id
+    |--------------------------------------------------------------------------
+    */
+
+    const tableId =
+        searchParams.get("table_id");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Build URL with current query parameters
+    |--------------------------------------------------------------------------
+    */
+
+    function withQuery(
+        url: string
+    ) {
+
+        const params =
+            new URLSearchParams();
+
+        if (tableId) {
+            params.set(
+                "table_id",
+                tableId
+            );
+        }
+
+        const query =
+            params.toString();
+
+        return query
+            ? `${url}?${query}`
+            : url;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Back
+    |--------------------------------------------------------------------------
+    */
+
+    // const resolvedBackUrl =
+    //     withQuery(
+    //         backUrl.startsWith("/")
+    //             ? `/${locale}${backUrl}`
+    //             : backUrl
+    //     );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Language
+    |--------------------------------------------------------------------------
+    */
+
+    function changeLanguage(
+        lang: "en" | "ar"
+    ) {
+
+        const segments =
+            pathname.split("/");
+
+        /*
+        | Replace current locale
+        */
 
         segments[1] = lang;
 
-        router.push(segments.join("/"));
+        const newPath =
+            segments.join("/");
 
+        const params =
+            new URLSearchParams(
+                searchParams.toString()
+            );
+
+        const query =
+            params.toString();
+
+        router.push(
+            `${newPath}${
+                query
+                    ? `?${query}`
+                    : ""
+            }`
+        );
     }
-
 
     return (
 
-
         <header
-
             className="
-sticky
-top-0
-z-50
-
-bg-white/85
-backdrop-blur-xl
-
-border-b
-border-[#eee7df]
-
-"
-
+                sticky
+                top-0
+                z-50
+                bg-white/85
+                backdrop-blur-xl
+                border-b
+                border-[#eee7df]
+            "
         >
 
-
             <div
-
                 className="
-h-16
-px-5
-
-flex
-items-center
-justify-between
-
-relative
-
-"
-
+                    h-16
+                    px-5
+                    flex
+                    items-center
+                    justify-between
+                    relative
+                "
             >
-
-
 
                 {/* LEFT */}
 
                 <Link
-
-                    href={backUrl}
-
+                    href={resolvedBackUrl}
                     className="
-w-10
-h-10
-
-rounded-full
-
-bg-[#f7f2ec]
-
-flex
-items-center
-justify-center
-
-active:scale-95
-
-transition
-
-"
-
+                        w-10
+                        h-10
+                        rounded-full
+                        bg-[#f7f2ec]
+                        flex
+                        items-center
+                        justify-center
+                        active:scale-95
+                        transition
+                    "
                 >
-
                     <ArrowLeft
-
                         size={19}
-
                         strokeWidth={2}
-
                         className="
-text-[#40332a]
-"
-
+                            text-[#40332a]
+                        "
                     />
-
                 </Link>
-
-
-
-
-
-
 
                 {/* CENTER LOGO */}
 
-
                 <div
-
                     className="
-absolute
-left-1/2
-top-1/2
-
--translate-x-1/2
--translate-y-1/2
-
-"
-
+                        absolute
+                        left-1/2
+                        top-1/2
+                        -translate-x-1/2
+                        -translate-y-1/2
+                    "
                 >
 
-
                     <img
-
                         src="/images/stone-logo.png"
-
                         alt="Stone Cafe"
-
                         className="
-w-11
-h-11
-object-contain
-"
-
+                            w-11
+                            h-11
+                            object-contain
+                        "
                     />
-
 
                 </div>
 
-
-
-
-
-
-
+                {/* RIGHT */}
 
                 <div
                     className="
@@ -180,7 +224,9 @@ object-contain
                     <button
                         onClick={() =>
                             changeLanguage(
-                                locale === "en" ? "ar" : "en"
+                                locale === "en"
+                                    ? "ar"
+                                    : "en"
                             )
                         }
                         className="
@@ -199,10 +245,10 @@ object-contain
                             text-[#40332a]
                         "
                     >
-                        {locale === "en" ? "عربي" : "EN"}
+                        {locale === "en"
+                            ? "عربي"
+                            : "EN"}
                     </button>
-
-
 
                     {/* Title */}
 
@@ -224,23 +270,15 @@ object-contain
                                 truncate
                             "
                         >
-
                             {title}
-
                         </h1>
 
                     </div>
 
-
                 </div>
-
 
             </div>
 
-
         </header>
-
-
     );
-
 }

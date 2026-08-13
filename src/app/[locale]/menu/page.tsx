@@ -13,7 +13,10 @@ import PageLoader from "@/src/components/common/PageLoader";
 import FloatingCart from "@/src/features/cart/components/FloatingCart";
 import { toast } from "sonner";
 import { MenuItem } from "@/src/types/menu";
-import { useRouter } from "next/navigation";
+import {
+    useRouter,
+    useSearchParams,
+} from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 
@@ -80,6 +83,8 @@ export default function MenuPage() {
 
     const router = useRouter();
     const locale = useLocale();
+    const searchParams =
+    useSearchParams();
     const [categoryLoading, setCategoryLoading] = useState(false);
 
 
@@ -95,10 +100,30 @@ export default function MenuPage() {
                 group => group.modifiers.length > 0
             );
 
-        if (hasModifiers) {
+        const params =
+            new URLSearchParams(
+                searchParams.toString()
+            );
 
-            router.push(`/${locale}/menu/${item.id}`);
-            return;
+        console.log(
+            "Current params:",
+            params.toString()
+        );
+
+        const query =
+            params.toString();
+
+
+        if (hasModifiers) {
+                 router.push(
+                    `/${locale}/menu/${item.id}${
+                        query
+                            ? `?${query}`
+                            : ""
+                    }`
+                );
+
+                return;
         }
 
         addItem({

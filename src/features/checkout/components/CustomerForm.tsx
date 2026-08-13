@@ -68,7 +68,16 @@ export default function CustomerForm({
     const [notMember, setNotMember] =
         useState(false);
 
+    const [redeemPoints, setRedeemPoints] = useState(0);
+    const POINT_VALUE = 100; 
+    // 100 points = QAR 1
 
+    const availablePoints =
+        member?.loyalty_points ?? 0;
+
+
+    const loyaltyDiscount =
+        redeemPoints / POINT_VALUE;
 
     useEffect(() => {
 
@@ -90,16 +99,8 @@ export default function CustomerForm({
                 return;
 
             }
-
-
-
             try {
-
-
                 setChecking(true);
-
-
-
                 const result =
                     await lookupCustomer(
                         `974${customer.phone}`
@@ -203,76 +204,76 @@ export default function CustomerForm({
 
                 <div className="space-y-2">
 
-    <label
-        dir="auto"
-        className="block text-sm font-medium text-start"
-    >
-        {t("mobNo")}
-    </label>
+                    <label
+                        dir="auto"
+                        className="block text-sm font-medium text-start"
+                    >
+                        {t("mobNo")}
+                    </label>
 
-    <div className="flex flex-row" dir="ltr">
+                    <div className="flex flex-row" dir="ltr">
 
-        {/* Country Code */}
-        <div
-            className="
-                h-12
-                px-4
-                rounded-l-2xl
-                border
-                border-r-0
-                bg-muted
-                flex
-                items-center
-                justify-center
-                font-bold
-                whitespace-nowrap
-            "
-        >
-            +974
-        </div>
+                        {/* Country Code */}
+                        <div
+                            className="
+                                h-12
+                                px-4
+                                rounded-l-2xl
+                                border
+                                border-r-0
+                                bg-muted
+                                flex
+                                items-center
+                                justify-center
+                                font-bold
+                                whitespace-nowrap
+                            "
+                        >
+                            +974
+                        </div>
 
-        {/* Phone Input */}
-        <div className="relative flex-1">
+                        {/* Phone Input */}
+                        <div className="relative flex-1">
 
-            <Phone
-                size={18}
-                className="
-                    absolute
-                    left-3
-                    top-1/2
-                    -translate-y-1/2
-                    text-muted-foreground
-                "
-            />
+                            <Phone
+                                size={18}
+                                className="
+                                    absolute
+                                    left-3
+                                    top-1/2
+                                    -translate-y-1/2
+                                    text-muted-foreground
+                                "
+                            />
 
-            <Input
-                type="tel"
-                inputMode="numeric"
-                maxLength={8}
-                dir="ltr"
-                placeholder="55123456"
-                value={customer.phone ?? ""}
-                onChange={(e) =>
-                    updateCustomer(
-                        "phone",
-                        e.target.value.replace(/\D/g, "")
-                    )
-                }
-                className="
-                    h-12
-                    rounded-l-none
-                    rounded-r-2xl
-                    pl-10
-                    pr-10
-                    text-left
-                "
-            />
+                            <Input
+                                type="tel"
+                                inputMode="numeric"
+                                maxLength={8}
+                                dir="ltr"
+                                placeholder="55123456"
+                                value={customer.phone ?? ""}
+                                onChange={(e) =>
+                                    updateCustomer(
+                                        "phone",
+                                        e.target.value.replace(/\D/g, "")
+                                    )
+                                }
+                                className="
+                                    h-12
+                                    rounded-l-none
+                                    rounded-r-2xl
+                                    pl-10
+                                    pr-10
+                                    text-left
+                                "
+                            />
 
-        </div>
+                        </div>
 
-    </div>
+                    </div>
 
-</div>
+                </div>
 
                 {
                     member &&
@@ -372,18 +373,77 @@ export default function CustomerForm({
 
 
                         </div>
+                        
 
 
                     </div>
 
 
                 }
+                {
+    member &&
+    member.loyalty_points > 0 && (
+
+        <div className="mt-4 space-y-3">
+
+            <label className="text-sm font-medium">
+                Redeem Reward Points
+            </label>
+
+
+            <Input
+                type="number"
+                min={0}
+                max={availablePoints}
+                value={redeemPoints || ""}
+                placeholder="Enter points"
+                onChange={(e)=>{
+
+                    let value =
+                        Number(e.target.value);
+
+
+                    if(value > availablePoints){
+                        value = availablePoints;
+                    }
+
+
+                    setRedeemPoints(value);
+
+                }}
+                className="h-12 rounded-xl"
+            />
 
 
 
+                            {
+                                redeemPoints > 0 && (
+
+                                    <div
+                                        className="
+                                        rounded-xl
+                                        bg-green-100
+                                        p-3
+                                        text-green-700
+                                        font-bold
+                                        "
+                                    >
+
+                                        You save:
+
+                                        {" "}
+                                        QAR {loyaltyDiscount.toFixed(2)}
+
+                                    </div>
+
+                                )
+                            }
 
 
+                        </div>
 
+                    )
+                }
                 {/* NEW CUSTOMER */}
 
 

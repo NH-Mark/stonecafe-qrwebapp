@@ -57,7 +57,9 @@
     "status":"Status",
     "successDesc":"We are preparing your delicious order",
     "orderConfirmed":"Order Confirmed",
-    "paymentSuccessfull":"Payment Successful"
+    "paymentSuccessfull":"Payment Successful",
+    "confirmOrder":"Confirm Order",
+    "confirming":"Confirming"
   },
   "common":{
     "qar":"QAR"

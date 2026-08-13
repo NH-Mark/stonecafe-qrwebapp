@@ -56,8 +56,10 @@
     "amount":"كمية",
     "status":"حالة",
     "successDesc":"نُجهّز طلبك اللذيذ.",
-     "orderConfirmed":"تم تأكيد الطلب",
-    "paymentSuccessfull":"تمت عملية الدفع بنجاح"
+    "orderConfirmed":"تم تأكيد الطلب",
+    "paymentSuccessfull":"تمت عملية الدفع بنجاح",
+    "confirmOrder":"تأكيد الطلب",
+    "confirming":"تأكيد"
   },
   "common":{
     "qar":"ريال"

@@ -2,28 +2,38 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
-import { Check, Coffee, Home, ShoppingBag } from "lucide-react";
+import { Check, Coffee, Home } from "lucide-react";
 
 import PageLoader from "@/src/components/common/PageLoader";
 import { useCartStore } from "@/src/store/useCartStore";
 import { useLocale, useTranslations } from "next-intl";
 
-
 interface Order {
     id: number;
-    order_no: string;
-    payment_status: string;
-    payment_reference: string | null;
-    total: string;
-    payment_method: string;
-}
 
+    order_no: string;
+
+    payment_status: string;
+
+    payment_reference: string | null;
+
+    total: string;
+
+    payment_method: string | null;
+
+    type: string;
+
+    table: string | null;
+}
 
 export default function OrderSuccessPage() {
 
     const params = useParams();
-    const t = useTranslations('checkout');
-    const common = useTranslations('common');
+
+    const t = useTranslations("checkout");
+
+    const common = useTranslations("common");
+
     const locale = useLocale();
 
 
@@ -41,7 +51,6 @@ export default function OrderSuccessPage() {
         useRef(false);
 
 
-
     useEffect(() => {
 
         if (!params.id) return;
@@ -50,37 +59,32 @@ export default function OrderSuccessPage() {
         fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/orders/${params.id}`
         )
-        .then(res => res.json())
-        .then(response => {
+            .then(res => res.json())
+            .then(response => {
 
-            const orderData =
-                response.data;
-
-
-            setOrder(orderData);
+                const orderData =
+                    response.data;
 
 
-
-            if (
-                !cartCleared.current
-            ) {
-
-                clearCart();
-
-                cartCleared.current = true;
-
-            }
+                setOrder(orderData);
 
 
-        });
+                if (
+                    !cartCleared.current
+                ) {
 
+                    clearCart();
+
+                    cartCleared.current = true;
+
+                }
+
+            });
 
     }, [
         params.id,
         clearCart
     ]);
-
-
 
 
     if (!order) {
@@ -90,11 +94,27 @@ export default function OrderSuccessPage() {
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Dine In
+    |--------------------------------------------------------------------------
+    */
 
-    const isCard =
-        order.payment_method === "SKIPCASH";
+    const isDineIn =
+        order.type === "Dine In";
 
-   
+
+    /*
+    |--------------------------------------------------------------------------
+    | Table Assigned
+    |--------------------------------------------------------------------------
+    */
+
+    const hasTable =
+        isDineIn &&
+        order.table !== null;
+
+
     return (
 
         <main
@@ -119,6 +139,7 @@ export default function OrderSuccessPage() {
                 "
             >
 
+                {/* SUCCESS HEADER */}
 
                 <div
                     className="
@@ -154,7 +175,6 @@ export default function OrderSuccessPage() {
                     </div>
 
 
-
                     <h1
                         className="
                             mt-5
@@ -163,13 +183,13 @@ export default function OrderSuccessPage() {
                             text-white
                         "
                     >
-                        {
-                            isCard
-                                ? t('paymentSuccessfull')
-                                : t('orderConfirmed')
-                        }
-                    </h1>
 
+                        {
+                            
+                            t("orderConfirmed")
+                        }
+
+                    </h1>
 
 
                     <p
@@ -183,7 +203,7 @@ export default function OrderSuccessPage() {
                         "
                     >
 
-                       {t('thanksMsg')}
+                        {t("thanksMsg")}
 
                         <Coffee
                             className="w-4 h-4"
@@ -191,15 +211,12 @@ export default function OrderSuccessPage() {
 
                     </p>
 
-
                 </div>
 
 
-
-
+                {/* CONTENT */}
 
                 <div className="p-8">
-
 
                     <div
                         className="
@@ -210,6 +227,7 @@ export default function OrderSuccessPage() {
                         "
                     >
 
+                        {/* ORDER NUMBER */}
 
                         <div
                             className="
@@ -223,7 +241,7 @@ export default function OrderSuccessPage() {
                                     text-[#a57650]
                                 "
                             >
-                               {t('orderNo')}
+                                {t("orderNo")}
                             </span>
 
 
@@ -239,8 +257,61 @@ export default function OrderSuccessPage() {
                         </div>
 
 
+                        {/* TABLE */}
+
+                        {isDineIn && (
+
+                            <div
+                                className="
+                                    flex
+                                    justify-between
+                                    items-center
+                                "
+                            >
+
+                                <span
+                                    className="
+                                        text-[#a57650]
+                                    "
+                                >
+                                    Table
+                                </span>
 
 
+                                {hasTable ? (
+
+                                    <span
+                                        className="
+                                            font-bold
+                                            text-[#40332a]
+                                        "
+                                    >
+                                        {order.table}
+                                    </span>
+
+                                ) : (
+
+                                    <span
+                                        className="
+                                            text-right
+                                            text-sm
+                                            font-medium
+                                            text-[#a57650]
+                                            max-w-[180px]
+                                        "
+                                    >
+                                        Please see our staff
+                                        for table assignment
+                                    </span>
+
+                                )}
+
+                            </div>
+
+                        )}
+
+
+                        {/* AMOUNT */}
 
                         <div
                             className="
@@ -254,7 +325,7 @@ export default function OrderSuccessPage() {
                                     text-[#a57650]
                                 "
                             >
-                                {t('amount')}
+                                {t("amount")}
                             </span>
 
 
@@ -264,15 +335,13 @@ export default function OrderSuccessPage() {
                                     text-[#40332a]
                                 "
                             >
-                                {order.total} {common('qar')}
+                                {order.total} {common("qar")}
                             </span>
 
                         </div>
 
 
-
-
-
+                        {/* STATUS */}
 
                         <div
                             className="
@@ -287,9 +356,8 @@ export default function OrderSuccessPage() {
                                     text-[#a57650]
                                 "
                             >
-                                {t('status')}
+                                {t("status")}
                             </span>
-
 
 
                             <span
@@ -311,34 +379,24 @@ export default function OrderSuccessPage() {
                                     className="w-4 h-4"
                                 />
 
-
                                 {
-                                    isCard
-                                        ? "Paid"
-                                        : "Confirmed"
+                                     "Confirmed"
                                 }
-
 
                             </span>
 
-
                         </div>
-
-
 
                     </div>
 
 
-
-
-
+                    {/* HOME BUTTON */}
 
                     <button
-
                         onClick={() =>
-                            window.location.href =  `/${locale}`
+                            window.location.href =
+                                `/${locale}`
                         }
-
                         className="
                             mt-8
                             w-full
@@ -360,12 +418,9 @@ export default function OrderSuccessPage() {
                             className="w-5 h-5"
                         />
 
-                        {t('backToHome')}
+                        {t("backToHome")}
 
                     </button>
-
-
-
 
 
                     <p
@@ -376,19 +431,13 @@ export default function OrderSuccessPage() {
                             text-[#c3b6a4]
                         "
                     >
-
-                        {t('successDesc')}
-
+                        {t("successDesc")}
                     </p>
-
 
                 </div>
 
-
             </div>
 
-
         </main>
-
     );
 }

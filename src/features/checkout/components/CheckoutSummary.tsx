@@ -227,7 +227,7 @@ export default function CheckoutSummary({
 
                                     <span>
 
-                                         {t('placing')}
+                                         {t('confirming')}
 
                                     </span>
 
@@ -240,7 +240,7 @@ export default function CheckoutSummary({
 
                                     <span>
 
-                                        {t('placeOrder')}
+                                        {t('confirmOrder')}
 
                                     </span>
 

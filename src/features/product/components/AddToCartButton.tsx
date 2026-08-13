@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Minus, Plus } from "lucide-react";
 
 import { MenuItem } from "@/src/types/menu";
@@ -46,6 +46,7 @@ export default function AddToCartButton({
     const t = useTranslations("product");
 
     const locale = useLocale();
+    const searchParams = useSearchParams();
     const common = useTranslations('common');
 
     const addItem =
@@ -273,9 +274,27 @@ export default function AddToCartButton({
 
                         });
 
+                        const tableId =
+                            searchParams.get("table_id");
 
+                        const params =
+                            new URLSearchParams();
 
-                        router.push(`/${locale}/menu`);
+                        if (tableId) {
+                            params.set(
+                                "table_id",
+                                tableId
+                            );
+                        }
+                        const query =
+                            params.toString();
+                        router.push(
+                            `/${locale}/menu${
+                                query
+                                    ? `?${query}`
+                                    : ""
+                            }`
+                        );
 
                     }}
 
