@@ -21,7 +21,7 @@ interface Order {
 
     payment_method: string | null;
 
-    type: string;
+    order_type_code: string;
 
     table: string | null;
 }
@@ -101,7 +101,7 @@ export default function OrderSuccessPage() {
     */
 
     const isDineIn =
-        order.type === "Dine In";
+        order.order_type_code === "dine_in";
 
 
     /*
