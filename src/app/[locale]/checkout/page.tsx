@@ -54,6 +54,8 @@ export default function CheckoutPage() {
 
     const searchParams =
         useSearchParams();
+    
+    const [numberPlate, setNumberPlate] = useState("");
 
     /*
     |--------------------------------------------------------------------------
@@ -186,6 +188,10 @@ export default function CheckoutPage() {
 
                 order_type:
                     orderType,
+                number_plate:
+                orderType === "takeaway"
+                    ? numberPlate || null
+                    : null,
 
                 subtotal,
 
@@ -346,6 +352,30 @@ export default function CheckoutPage() {
                         findCustomerByPhone
                     }
                 />
+                {orderType === "takeaway" && (
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">
+                           Plate  Number 
+                        </label>
+
+                        <input
+                            type="text"
+                            value={numberPlate}
+                            onChange={(e) =>
+                                setNumberPlate(e.target.value)
+                            }
+                            placeholder="Enter vehicle plate number"
+                            className="
+                                w-full
+                                h-12
+                                rounded-2xl
+                                border
+                                px-4
+                                bg-white
+                            "
+                        />
+                    </div>
+                )}
 
             </div>
 
