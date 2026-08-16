@@ -54,7 +54,7 @@ export default function CheckoutPage() {
 
     const searchParams =
         useSearchParams();
-    
+
     const [numberPlate, setNumberPlate] = useState("");
 
     /*
@@ -81,6 +81,7 @@ export default function CheckoutPage() {
 
     const subtotal =
         totalPrice();
+
 
     const total =
         subtotal;
@@ -169,7 +170,7 @@ export default function CheckoutPage() {
 
                 customer:
                     customer.name ||
-                    customer.phone
+                        customer.phone
                         ? {
                             name:
                                 customer.name || null,
@@ -189,9 +190,9 @@ export default function CheckoutPage() {
                 order_type:
                     orderType,
                 number_plate:
-                orderType === "takeaway"
-                    ? numberPlate || null
-                    : null,
+                    orderType === "takeaway"
+                        ? numberPlate || null
+                        : null,
 
                 subtotal,
 
@@ -353,10 +354,18 @@ export default function CheckoutPage() {
                     }
                 />
                 {orderType === "takeaway" && (
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">
-                           Plate  Number 
-                        </label>
+                    <div className="space-y-3">
+
+                        <div>
+                            <label className="text-sm font-semibold text-[#40332a]">
+                                Plate Number
+                            </label>
+
+                            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                                Ordering from your car? Enter your plate number so we can
+                                easily locate you and bring your order to your vehicle.
+                            </p>
+                        </div>
 
                         <input
                             type="text"
@@ -366,14 +375,21 @@ export default function CheckoutPage() {
                             }
                             placeholder="Enter vehicle plate number"
                             className="
-                                w-full
-                                h-12
-                                rounded-2xl
-                                border
-                                px-4
-                                bg-white
-                            "
+                w-full
+                h-12
+                rounded-2xl
+                border
+                border-[#d9d9d8]
+                px-4
+                bg-white
+                text-[#40332a]
+                outline-none
+                focus:border-[#a57650]
+                focus:ring-2
+                focus:ring-[#a57650]/10
+            "
                         />
+
                     </div>
                 )}
 

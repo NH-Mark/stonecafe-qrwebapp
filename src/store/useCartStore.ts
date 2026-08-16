@@ -11,7 +11,7 @@ export interface CartModifier {
     groupName_ar?: string;
 
     name: string;
-    name_ar?:string;
+    name_ar?: string;
 
     price: number;
 
@@ -162,26 +162,16 @@ export const useCartStore = create<CartStore>()(
                 });
 
             },
-
-
-
+            
             clearCart: () => {
-
-
                 set({
 
                     items: []
 
                 });
-
-
             },
 
-
-
             totalItems: () => {
-
-
                 return get()
                     .items
                     .reduce(
@@ -189,33 +179,23 @@ export const useCartStore = create<CartStore>()(
                             sum + item.qty,
                         0
                     );
-
-
             },
 
-
-
             totalPrice: () => {
-
-
-                return get()
-                    .items
-                    .reduce(
-
-                        (sum, item) =>
-                            sum + (item.price * item.qty),
-
+                return get().items.reduce((sum, item) => {
+                    const modifiersPrice = item.modifiers.reduce(
+                        (modifierSum, modifier) =>
+                            modifierSum + Number(modifier.price || 0),
                         0
-
                     );
 
-
+                    return (
+                        sum +
+                        (Number(item.price) + modifiersPrice) * item.qty
+                    );
+                }, 0);
             }
-
-
-
         }),
-
         {
             name: "stone-cafe-cart"
         }
