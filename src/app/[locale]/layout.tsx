@@ -47,7 +47,6 @@ export default async function RootLayout({
     >
 
       <body
-
         className="
         min-h-screen
         bg-[#eee8df]

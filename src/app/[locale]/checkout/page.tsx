@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -46,6 +47,9 @@ export default function CheckoutPage() {
     const [loading, setLoading] =
         useState(false);
 
+    const [isGuest, setIsGuest] =
+        useState(false);
+
     const t =
         useTranslations("checkout");
 
@@ -55,7 +59,8 @@ export default function CheckoutPage() {
     const searchParams =
         useSearchParams();
 
-    const [numberPlate, setNumberPlate] = useState("");
+    const [numberPlate, setNumberPlate] =
+        useState("");
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +86,6 @@ export default function CheckoutPage() {
 
     const subtotal =
         totalPrice();
-
 
     const total =
         subtotal;
@@ -129,26 +133,15 @@ export default function CheckoutPage() {
 
         /*
         |--------------------------------------------------------------------------
-        | Table validation
+        | Customer validation
         |--------------------------------------------------------------------------
         */
 
-        // if (!tableId) {
-
-        //     toast.error(
-        //         "Table information is missing."
-        //     );
-
-        //     return;
-        // }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Customer is OPTIONAL
-        |--------------------------------------------------------------------------
-        */
+        // Only validate customer phone
+        // when the customer is not a guest.
 
         if (
+            !isGuest &&
             customer.phone &&
             customer.phone.length !== 8
         ) {
@@ -166,11 +159,27 @@ export default function CheckoutPage() {
 
             const payload = {
 
-                table_id: tableId ? Number(tableId) : null,
+                table_id:
+                    tableId
+                        ? Number(tableId)
+                        : null,
+
+                /*
+                |--------------------------------------------------------------------------
+                | Guest checkout
+                |--------------------------------------------------------------------------
+                |
+                | If guest is selected, customer is null.
+                |
+                */
 
                 customer:
-                    customer.name ||
-                        customer.phone
+                    !isGuest &&
+                    (
+                        customer.name ||
+                        customer.phone ||
+                        customer.note
+                    )
                         ? {
                             name:
                                 customer.name || null,
@@ -189,6 +198,7 @@ export default function CheckoutPage() {
 
                 order_type:
                     orderType,
+
                 number_plate:
                     orderType === "takeaway"
                         ? numberPlate || null
@@ -200,7 +210,9 @@ export default function CheckoutPage() {
                     total,
 
                 notes:
-                    customer.note || null
+                    !isGuest
+                        ? customer.note || null
+                        : null
             };
 
             const response =
@@ -346,48 +358,135 @@ export default function CheckoutPage() {
 
                 <OrderItems />
 
-                <CustomerForm
-                    customer={customer}
-                    updateCustomer={updateCustomer}
-                    lookupCustomer={
-                        findCustomerByPhone
-                    }
-                />
+                {/* Guest Checkout */}
+                <div
+                    className="
+                        bg-white
+                        rounded-2xl
+                        border
+                        border-[#e8e2dc]
+                        p-4
+                    "
+                >
+
+                    <label
+                        className="
+                            flex
+                            items-center
+                            gap-3
+                            cursor-pointer
+                        "
+                    >
+
+                        <input
+                            type="checkbox"
+                            checked={isGuest}
+                            onChange={(e) =>
+                                setIsGuest(
+                                    e.target.checked
+                                )
+                            }
+                            className="
+                                w-5
+                                h-5
+                                accent-[#40332a]
+                            "
+                        />
+
+                        <div>
+
+                            <p
+                                className="
+                                    font-bold
+                                    text-[#40332a]
+                                "
+                            >
+                                Continue as Guest
+                            </p>
+
+                            <p
+                                className="
+                                    text-xs
+                                    text-gray-500
+                                    mt-0.5
+                                "
+                            >
+                                Skip customer information
+                            </p>
+
+                        </div>
+
+                    </label>
+
+                </div>
+
+                {/* Customer Information */}
+                {!isGuest && (
+                    <CustomerForm
+                        customer={customer}
+                        updateCustomer={updateCustomer}
+                        lookupCustomer={
+                            findCustomerByPhone
+                        }
+                    />
+                )}
+
+                {/* Takeaway Plate Number */}
                 {orderType === "takeaway" && (
                     <div className="space-y-3">
 
                         <div>
-                            <label className="text-sm font-semibold text-[#40332a]">
+
+                            <label
+                                className="
+                                    text-sm
+                                    font-semibold
+                                    text-[#40332a]
+                                "
+                            >
                                 Plate Number
                             </label>
 
-                            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                                Ordering from your car? Enter your plate number so we can
-                                easily locate you and bring your order to your vehicle.
+                            <p
+                                className="
+                                    mt-1
+                                    text-xs
+                                    leading-relaxed
+                                    text-muted-foreground
+                                "
+                            >
+                                Ordering from your car?
+                                Enter your plate number so
+                                we can easily locate you and
+                                bring your order to your
+                                vehicle.
                             </p>
+
                         </div>
 
                         <input
                             type="text"
                             value={numberPlate}
                             onChange={(e) =>
-                                setNumberPlate(e.target.value)
+                                setNumberPlate(
+                                    e.target.value
+                                )
                             }
                             placeholder="Enter vehicle plate number"
                             className="
-                w-full
-                h-12
-                rounded-2xl
-                border
-                border-[#d9d9d8]
-                px-4
-                bg-white
-                text-[#40332a]
-                outline-none
-                focus:border-[#a57650]
-                focus:ring-2
-                focus:ring-[#a57650]/10
-            "
+                                w-full
+                                h-12
+                                rounded-2xl
+                                border
+                                border-[#d9d9d8]
+                                px-4
+                                bg-white
+                                text-[#40332a]
+                                outline-none
+                                focus:border-[#a57650]
+                                focus:ring-2
+                                focus:ring-[#a57650]/10
+                            "
                         />
 
                     </div>
