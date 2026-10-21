@@ -259,15 +259,17 @@ px-5
 
                     {/* Categories */}
                     <div
-                        className="
+                        className={
+                            `
             flex
             gap-4
             overflow-x-auto
             scrollbar-hide
             px-1
-            pr-10
+            ${locale === "ar" ? "pl-10" : "pr-10"}
             pt-5
-        "
+        `
+                        }
                     >
                         {categories.map((cat) => {
 
@@ -294,20 +296,22 @@ px-5
 
                     {/* Scroll Hint */}
                     <div
-                        className="
+                        className={
+                            `
             pointer-events-none
             absolute
             top-0
             bottom-0
-            right-0
+            ${locale === "ar" ? "left-0" : "right-0"}
             w-16
             flex
             items-center
-            justify-end
-            bg-gradient-to-l
+            ${locale === "ar" ? "justify-start" : "justify-end"}
+            ${locale === "ar" ? "bg-gradient-to-r" : "bg-gradient-to-l"}
             from-[#faf7f2]
             to-transparent
-        "
+        `
+                        }
                     >
                         <Arrow
                             className="

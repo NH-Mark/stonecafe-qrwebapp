@@ -3,6 +3,7 @@
 import Link from "next/link";
 import {
     ArrowLeft,
+    ArrowRight,
 } from "lucide-react";
 
 import {
@@ -30,6 +31,7 @@ export default function CustomerHeader({
     const searchParams = useSearchParams();
 
     const locale = useLocale();
+    const BackArrow = locale === "ar" ? ArrowRight : ArrowLeft;
 
     const params =
         new URLSearchParams(
@@ -176,7 +178,7 @@ export default function CustomerHeader({
                         transition
                     "
                 >
-                    <ArrowLeft
+                    <BackArrow
                         size={19}
                         strokeWidth={2}
                         className="
