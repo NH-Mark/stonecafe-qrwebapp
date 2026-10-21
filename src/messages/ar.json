@@ -40,6 +40,8 @@
     "specialInstructions":"تعليمات خاصة",
     "specInstructnPlaceholder":"سكر أقل، حساسية، حار جداً...",
     "customerName":"اسم العميل",
+    "guestCheckoutTitle":"المتابعة كضيف",
+    "guestCheckoutDesc":"تخطي معلومات العميل",
     "loadingPaymentMethod":"جارٍ تحميل طرق الدفع...",
     "paymentMethod":"طريقة الدفع",
      "placeOrder":"إتمام الطلب",

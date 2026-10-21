@@ -40,6 +40,8 @@
     "specialInstructions":"Special Instructions",
     "specInstructnPlaceholder":"Less sugar, allergies, extra spicy...",
     "customerName":"Customer Name",
+    "guestCheckoutTitle":"Continue as Guest",
+    "guestCheckoutDesc":"Skip customer information",
     "loadingPaymentMethod":"Loading payment methods...",
     "paymentMethod":"Payment Method",
     "placeOrder":"Place Order",

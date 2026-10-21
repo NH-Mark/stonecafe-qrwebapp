@@ -401,7 +401,7 @@ export default function CheckoutPage() {
                                     text-[#40332a]
                                 "
                             >
-                                Continue as Guest
+                                {t("guestCheckoutTitle")}
                             </p>
 
                             <p
@@ -411,7 +411,7 @@ export default function CheckoutPage() {
                                     mt-0.5
                                 "
                             >
-                                Skip customer information
+                                {t("guestCheckoutDesc")}
                             </p>
 
                         </div>
