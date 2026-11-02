@@ -148,7 +148,7 @@ export default function OrderTypeSelector() {
                 <div className="relative h-64 flex items-center justify-center">
 
                     <img
-                        src="/f.png"
+                        src="/logo.png"
                         className="w-40"
                         alt="Logo"
                     />
