@@ -32,11 +32,20 @@ export default function CustomerHeader({
 
     const locale = useLocale();
     const BackArrow = locale === "ar" ? ArrowRight : ArrowLeft;
+    const defaultLocationId =
+        process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
 
     const params =
         new URLSearchParams(
             searchParams.toString()
         );
+
+    if (!params.get("location_id")) {
+        params.set(
+            "location_id",
+            defaultLocationId
+        );
+    }
 
     const query =
         params.toString();
@@ -47,56 +56,6 @@ export default function CustomerHeader({
                 ? `?${query}`
                 : ""
         }`;
-
-    /*
-    |--------------------------------------------------------------------------
-    | Preserve table_id
-    |--------------------------------------------------------------------------
-    */
-
-    const tableId =
-        searchParams.get("table_id");
-
-    /*
-    |--------------------------------------------------------------------------
-    | Build URL with current query parameters
-    |--------------------------------------------------------------------------
-    */
-
-    function withQuery(
-        url: string
-    ) {
-
-        const params =
-            new URLSearchParams();
-
-        if (tableId) {
-            params.set(
-                "table_id",
-                tableId
-            );
-        }
-
-        const query =
-            params.toString();
-
-        return query
-            ? `${url}?${query}`
-            : url;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Back
-    |--------------------------------------------------------------------------
-    */
-
-    // const resolvedBackUrl =
-    //     withQuery(
-    //         backUrl.startsWith("/")
-    //             ? `/${locale}${backUrl}`
-    //             : backUrl
-    //     );
 
     /*
     |--------------------------------------------------------------------------
@@ -124,6 +83,13 @@ export default function CustomerHeader({
             new URLSearchParams(
                 searchParams.toString()
             );
+
+        if (!params.get("location_id")) {
+            params.set(
+                "location_id",
+                defaultLocationId
+            );
+        }
 
         const query =
             params.toString();

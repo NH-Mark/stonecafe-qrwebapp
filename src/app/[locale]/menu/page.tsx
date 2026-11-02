@@ -83,6 +83,8 @@ export default function MenuPage() {
 
     const router = useRouter();
     const locale = useLocale();
+    const defaultLocationId =
+        process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
     const searchParams =
     useSearchParams();
     const [categoryLoading, setCategoryLoading] = useState(false);
@@ -104,6 +106,13 @@ export default function MenuPage() {
             new URLSearchParams(
                 searchParams.toString()
             );
+
+        if (!params.get("location_id")) {
+            params.set(
+                "location_id",
+                defaultLocationId
+            );
+        }
 
         console.log(
             "Current params:",

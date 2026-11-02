@@ -43,6 +43,9 @@ export default function FloatingCart({
             ? ArrowLeft
             : ArrowRight;
 
+    const defaultLocationId =
+        process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
+
     /*
     |--------------------------------------------------------------------------
     | Preserve table_id / existing query parameters
@@ -53,6 +56,13 @@ export default function FloatingCart({
         new URLSearchParams(
             searchParams.toString()
         );
+
+    if (!params.get("location_id")) {
+        params.set(
+            "location_id",
+            defaultLocationId
+        );
+    }
 
     const query =
         params.toString();

@@ -56,6 +56,9 @@ export default function CheckoutPage() {
     const locale =
         useLocale();
 
+    const defaultLocationId =
+        process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
+
     const searchParams =
         useSearchParams();
 
@@ -70,6 +73,10 @@ export default function CheckoutPage() {
 
     const tableId =
         searchParams.get("table_id");
+
+    const locationId =
+        searchParams.get("location_id") ||
+        defaultLocationId;
 
     const {
         items,
@@ -158,6 +165,9 @@ export default function CheckoutPage() {
         try {
 
             const payload = {
+
+                location_id:
+                    Number(locationId),
 
                 table_id:
                     tableId
@@ -306,8 +316,8 @@ export default function CheckoutPage() {
                     <Link
                         href={
                             tableId
-                                ? `/${locale}/menu?table_id=${tableId}`
-                                : `/${locale}/menu`
+                                ? `/${locale}/menu?table_id=${tableId}&location_id=${locationId}`
+                                : `/${locale}/menu?location_id=${locationId}`
                         }
                         className="
                             mt-6

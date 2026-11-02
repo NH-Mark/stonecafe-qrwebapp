@@ -277,6 +277,13 @@ export default function AddToCartButton({
                         const tableId =
                             searchParams.get("table_id");
 
+                        const defaultLocationId =
+                            process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
+
+                        const locationId =
+                            searchParams.get("location_id") ||
+                            defaultLocationId;
+
                         const params =
                             new URLSearchParams();
 
@@ -286,6 +293,11 @@ export default function AddToCartButton({
                                 tableId
                             );
                         }
+
+                        params.set(
+                            "location_id",
+                            locationId
+                        );
                         const query =
                             params.toString();
                         router.push(

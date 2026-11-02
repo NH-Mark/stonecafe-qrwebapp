@@ -17,7 +17,7 @@ function isOrderingClosed() {
 
   const currentMinutes = hour * 60 + minute;
 
-  const openingTime = 5 * 60; // 08:00
+  const openingTime = 4 * 60; // 08:00
   const closingTime = 22 * 60 + 30; // 22:30
 
   return currentMinutes >= closingTime || currentMinutes < openingTime;

@@ -34,6 +34,8 @@ export default function OrderTypeSelector() {
     const t = useTranslations("orderType");
 
     const locale = useLocale();
+    const defaultLocationId =
+        process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
 
     /*
     |--------------------------------------------------------------------------
@@ -43,6 +45,10 @@ export default function OrderTypeSelector() {
 
     const tableId =
         searchParams.get("table_id");
+
+    const locationId =
+        searchParams.get("location_id") ||
+        defaultLocationId;
 
     /*
     |--------------------------------------------------------------------------
@@ -58,7 +64,7 @@ export default function OrderTypeSelector() {
 
         /*
         |----------------------------------------------------------------------
-        | Preserve table_id
+        | Preserve table_id and location_id
         |----------------------------------------------------------------------
         */
 
@@ -71,6 +77,11 @@ export default function OrderTypeSelector() {
                 tableId
             );
         }
+
+        params.set(
+            "location_id",
+            locationId
+        );
 
         const query =
             params.toString();
@@ -107,6 +118,13 @@ export default function OrderTypeSelector() {
             new URLSearchParams(
                 searchParams.toString()
             );
+
+        if (!params.get("location_id")) {
+            params.set(
+                "location_id",
+                locationId
+            );
+        }
 
         const query =
             params.toString();
