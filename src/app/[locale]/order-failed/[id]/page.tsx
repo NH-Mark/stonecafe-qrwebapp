@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
     useParams,
     useSearchParams,
@@ -14,14 +15,56 @@ export default function OrderFailedPage() {
     const t = useTranslations('checkout')
     const locale = useLocale();
     const searchParams = useSearchParams();
+
+    const [storedContext, setStoredContext] =
+        useState<{
+            location_id?: string;
+            table_id?: string | null;
+        } | null>(null);
+
     const defaultLocationId =
         process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
 
+    useEffect(() => {
+
+        if (!params.id) {
+            return;
+        }
+
+        if (searchParams.get("location_id")) {
+            return;
+        }
+
+        try {
+            const raw = sessionStorage.getItem(
+                `order_context_${params.id}`
+            );
+
+            if (!raw) {
+                return;
+            }
+
+            setStoredContext(
+                JSON.parse(raw)
+            );
+        }
+        catch {
+            // Ignore malformed storage payload.
+        }
+
+    }, [
+        params.id,
+        searchParams
+    ]);
+
     const tableId =
-        searchParams.get("table_id");
+        searchParams.get("table_id") ||
+        storedContext?.table_id ||
+        null;
 
     const locationId =
         searchParams.get("location_id") ||
+        storedContext?.location_id ||
         defaultLocationId;
 
     const homeUrl =

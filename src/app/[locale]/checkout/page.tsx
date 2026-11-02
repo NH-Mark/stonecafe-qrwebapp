@@ -233,10 +233,30 @@ export default function CheckoutPage() {
             const order =
                 response.data;
 
+            const successQuery =
+                `location_id=${locationId}${
+                    tableId
+                        ? `&table_id=${tableId}`
+                        : ""
+                }`;
+
+            try {
+                sessionStorage.setItem(
+                    `order_context_${order.id}`,
+                    JSON.stringify({
+                        location_id: locationId,
+                        table_id: tableId
+                    })
+                );
+            }
+            catch {
+                // Ignore storage failures and continue redirect flow.
+            }
+
             clearCart();
 
             window.location.href =
-                `/${locale}/order-success/${order.id}`;
+                `/${locale}/order-success/${order.id}?${successQuery}`;
 
         }
         catch (error) {

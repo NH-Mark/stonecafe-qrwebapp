@@ -46,6 +46,12 @@ export default function OrderSuccessPage() {
     const [order, setOrder] =
         useState<Order | null>(null);
 
+    const [storedContext, setStoredContext] =
+        useState<{
+            location_id?: string;
+            table_id?: string | null;
+        } | null>(null);
+
 
     const clearCart =
         useCartStore(
@@ -92,6 +98,38 @@ export default function OrderSuccessPage() {
         clearCart
     ]);
 
+    useEffect(() => {
+
+        if (!params.id) {
+            return;
+        }
+
+        if (searchParams.get("location_id")) {
+            return;
+        }
+
+        try {
+            const raw = sessionStorage.getItem(
+                `order_context_${params.id}`
+            );
+
+            if (!raw) {
+                return;
+            }
+
+            setStoredContext(
+                JSON.parse(raw)
+            );
+        }
+        catch {
+            // Ignore malformed storage payload.
+        }
+
+    }, [
+        params.id,
+        searchParams
+    ]);
+
 
     if (!order) {
 
@@ -121,10 +159,13 @@ export default function OrderSuccessPage() {
         order.table !== null;
 
     const tableId =
-        searchParams.get("table_id");
+        searchParams.get("table_id") ||
+        storedContext?.table_id ||
+        null;
 
     const locationId =
         searchParams.get("location_id") ||
+        storedContext?.location_id ||
         defaultLocationId;
 
     const homeUrl =
