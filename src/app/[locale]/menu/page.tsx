@@ -30,13 +30,24 @@ export default function MenuPage() {
     const [search, setSearch] =
         useState("");
 
+    const locale = useLocale();
+    const searchParams =
+    useSearchParams();
+
+    const defaultLocationId =
+        process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
+
+    const locationId =
+        searchParams.get("location_id") ||
+        defaultLocationId;
+
     const t = useTranslations("menu");
 
     const {
         categories,
         menu,
         loading
-    } = useMenu();
+    } = useMenu(locationId);
 
 
 
@@ -82,11 +93,6 @@ export default function MenuPage() {
     );
 
     const router = useRouter();
-    const locale = useLocale();
-    const defaultLocationId =
-        process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
-    const searchParams =
-    useSearchParams();
     const [categoryLoading, setCategoryLoading] = useState(false);
 
 

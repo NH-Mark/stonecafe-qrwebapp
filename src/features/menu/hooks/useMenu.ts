@@ -11,7 +11,9 @@ import { getCategories, getMenu } from "../menu.service";
 
 
 
-export function useMenu() {
+export function useMenu(
+    locationId?: string
+) {
 
 
     const [categories, setCategories]
@@ -44,8 +46,8 @@ export function useMenu() {
                     menuData
 
                 ] = await Promise.all([
-                    getCategories(),
-                    getMenu()
+                    getCategories(locationId),
+                    getMenu(locationId)
                 ]);
 
                 setCategories(
@@ -73,7 +75,7 @@ export function useMenu() {
         load();
 
 
-    }, []);
+    }, [locationId]);
 
 
 

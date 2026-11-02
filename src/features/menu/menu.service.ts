@@ -6,12 +6,31 @@ import { MenuItem } from "@/src/types/menu";
 
 
 
-export async function getCategories(){
+export async function getCategories(
+    locationId?: string
+){
+
+    const params =
+        new URLSearchParams();
+
+    if (locationId) {
+        params.set(
+            "location_id",
+            locationId
+        );
+    }
+
+    const endpoint =
+        `/categories${
+            params.toString()
+                ? `?${params.toString()}`
+                : ""
+        }`;
 
     const response =
         await apiClient<{
             data: Category[]
-        }>("/categories");
+        }>(endpoint);
 
 
     return response.data;
@@ -19,12 +38,31 @@ export async function getCategories(){
 }
 
 
-export async function getMenu(){
+export async function getMenu(
+    locationId?: string
+){
+
+    const params =
+        new URLSearchParams();
+
+    if (locationId) {
+        params.set(
+            "location_id",
+            locationId
+        );
+    }
+
+    const endpoint =
+        `/menu${
+            params.toString()
+                ? `?${params.toString()}`
+                : ""
+        }`;
 
     const response =
         await apiClient<{
             data: MenuItem[]
-        }>("/menu");
+        }>(endpoint);
 
 
     return response.data;
