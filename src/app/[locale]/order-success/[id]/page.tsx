@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "next/navigation";
+import {
+    useParams,
+    useSearchParams,
+} from "next/navigation";
 import { Check, Coffee, Home } from "lucide-react";
 
 import PageLoader from "@/src/components/common/PageLoader";
@@ -35,6 +38,9 @@ export default function OrderSuccessPage() {
     const common = useTranslations("common");
 
     const locale = useLocale();
+    const searchParams = useSearchParams();
+    const defaultLocationId =
+        process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
 
 
     const [order, setOrder] =
@@ -113,6 +119,20 @@ export default function OrderSuccessPage() {
     const hasTable =
         isDineIn &&
         order.table !== null;
+
+    const tableId =
+        searchParams.get("table_id");
+
+    const locationId =
+        searchParams.get("location_id") ||
+        defaultLocationId;
+
+    const homeUrl =
+        `/${locale}?location_id=${locationId}${
+            tableId
+                ? `&table_id=${tableId}`
+                : ""
+        }`;
 
 
     return (
@@ -395,7 +415,7 @@ export default function OrderSuccessPage() {
                     <button
                         onClick={() =>
                             window.location.href =
-                                `/${locale}`
+                                homeUrl
                         }
                         className="
                             mt-8

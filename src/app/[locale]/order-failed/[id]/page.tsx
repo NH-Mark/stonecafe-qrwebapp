@@ -1,6 +1,9 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import {
+    useParams,
+    useSearchParams,
+} from "next/navigation";
 import { XCircle, Coffee, RefreshCcw } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -10,6 +13,24 @@ export default function OrderFailedPage() {
     const params = useParams();
     const t = useTranslations('checkout')
     const locale = useLocale();
+    const searchParams = useSearchParams();
+    const defaultLocationId =
+        process.env.NEXT_PUBLIC_DEFAULT_LOCATION_ID || "1";
+
+    const tableId =
+        searchParams.get("table_id");
+
+    const locationId =
+        searchParams.get("location_id") ||
+        defaultLocationId;
+
+    const homeUrl =
+        `/${locale}?location_id=${locationId}${
+            tableId
+                ? `&table_id=${tableId}`
+                : ""
+        }`;
+
     const retryPayment = async () => {
 
         try {
@@ -186,7 +207,7 @@ export default function OrderFailedPage() {
 
                     <button
                         onClick={() => {
-                            window.location.href =  `/${locale}`
+                            window.location.href = homeUrl
                         }}
                         className="
                             mt-3
